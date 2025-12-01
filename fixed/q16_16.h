@@ -48,27 +48,19 @@ typedef int32_t q16_16;
 
 // -------------------------------- CONVERSION -------------------------------- //
 
-static inline q16_16 q16_16_from_int(int32_t x)
-{
-    return x << 16;
-}
-
-static inline int32_t q16_16_to_int(q16_16 q)
-{
-    return q >> 16;
-}
-
-static inline q16_16 q16_16_from_float(float x)
-{
-    return (q16_16)(x * (float)(1 << 16));
-}
-
-static inline float q16_16_to_float(q16_16 q)
-{
-    return (float)q / (float)(1 << 16);
-}
+#define Q16_16_FROM_INT(x)      ((q16_16)((x) << 16))
+#define Q16_16_TO_INT(q)        ((int32_t)((q) >> 16))
+#define Q16_16_FROM_FLOAT(x)    ((q16_16)((x) * (float)(1 << 16)))
+#define Q16_16_TO_FLOAT(q)      ((float)(q) / (float)(1 << 16))
 
 // -------------------------------- BASIC ARITHMETIC -------------------------------- //
+
+// TODO: Add comments about the restrictions on the parameters of functions
+
+static inline q16_16 q16_16_negate(q16_16 q)
+{
+    return -q;
+}
 
 static inline q16_16 q16_16_add(q16_16 q1, q16_16 q2)
 {
@@ -93,6 +85,19 @@ static inline q16_16 q16_16_div(q16_16 q1, q16_16 q2)
 static inline q16_16 q16_16_interp(q16_16 q1, q16_16 q2, q16_16 alpha)
 {
     return q16_16_add(q2, q16_16_mul(alpha, q16_16_sub(q1, q2)));
+}
+
+// TODO: Try to accelerate multiplications and divisions by powers of two in the library
+// q * 2^shift
+static inline q16_16 q16_16_shift_right(q16_16 q, uint32_t shift)
+{
+    return q << shift;
+}
+
+// q / 2^shift
+static inline q16_16 q16_16_shift_left(q16_16 q, uint32_t shift)
+{
+    return q >> shift;
 }
 
 // -------------------------------- ROUNDING -------------------------------- //
@@ -260,6 +265,7 @@ static inline q16_16 q16_16_wrap_pi(q16_16 q)
     q += Q16_16_PI;
     q %= Q16_16_2PI;
     q -= Q16_16_PI;
+
     return q; // q in [-pi, pi)
 }
 
@@ -270,11 +276,11 @@ static inline q16_16 q16_16_sin(q16_16 q)
     const q16_16 q2 = q16_16_mul(q, q);
 
 #ifndef QGLM_FAST_MATH
-    const q16_16 factor0 = q16_16_sub(Q16_16_ONE, q16_16_div(q2, q16_16_from_int(6)));
+    const q16_16 factor0 = q16_16_sub(Q16_16_ONE, q16_16_div(q2, Q16_16_FROM_INT(6)));
 #else
-    const q16_16 factor2 = q16_16_sub(Q16_16_ONE, q16_16_div(q2, q16_16_from_int(42)));
-    const q16_16 factor1 = q16_16_sub(Q16_16_ONE, q16_16_mul(q16_16_div(q2, q16_16_from_int(20)), factor2));
-    const q16_16 factor0 = q16_16_sub(Q16_16_ONE, q16_16_mul(q16_16_div(q2, q16_16_from_int(6)), factor1));
+    const q16_16 factor2 = q16_16_sub(Q16_16_ONE, q16_16_div(q2, Q16_16_FROM_INT(42)));
+    const q16_16 factor1 = q16_16_sub(Q16_16_ONE, q16_16_mul(q16_16_div(q2, Q16_16_FROM_INT(20)), factor2));
+    const q16_16 factor0 = q16_16_sub(Q16_16_ONE, q16_16_mul(q16_16_div(q2, Q16_16_FROM_INT(6)), factor1));
 #endif
 
     return q16_16_mul(q, factor0);
@@ -289,25 +295,25 @@ static inline q16_16 q16_16_cos(q16_16 q)
 // tan(x) = sin(x) / cos(x)
 static inline q16_16 q16_16_tan(q16_16 q)
 {
-    const q16_16 qs = q16_16_sin(q);
-    const q16_16 qc = q16_16_cos(q);
+    const q16_16 s = q16_16_sin(q);
+    const q16_16 c = q16_16_cos(q);
 
-    if (qc == Q16_16_ZERO)
-        return (qs >= Q16_16_ZERO) ? Q16_16_MAX : Q16_16_MIN;
+    if (c == Q16_16_ZERO)
+        return (s >= Q16_16_ZERO) ? Q16_16_MAX : Q16_16_MIN;
 
-    return q16_16_div(qs, qc);
+    return q16_16_div(s, c);
 }
 
 // cot(x) = cos(x) / sin(x)
 static inline q16_16 q16_16_cot(q16_16 q)
 {
-    const q16_16 qs = q16_16_sin(q);
-    const q16_16 qc = q16_16_cos(q);
+    const q16_16 s = q16_16_sin(q);
+    const q16_16 c = q16_16_cos(q);
 
-    if (qs == Q16_16_ZERO)
-        return (qc >= Q16_16_ZERO) ? Q16_16_MAX : Q16_16_MIN;
+    if (s == Q16_16_ZERO)
+        return (c >= Q16_16_ZERO) ? Q16_16_MAX : Q16_16_MIN;
 
-    return q16_16_div(qc, qs);
+    return q16_16_div(c, s);
 }
 
 #endif // __Q16_16_H__

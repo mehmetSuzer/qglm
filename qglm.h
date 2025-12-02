@@ -26,5 +26,7 @@
 #include "geometry/sphere.h"
 #include "geometry/triangle.h"
 
+#include "transformation/projection.h"
+
 #endif // __QGLM_H__
 

@@ -62,6 +62,11 @@ static inline q16_16 q16_16_negate(q16_16 q)
     return -q;
 }
 
+static inline q16_16 q16_16_abs(q16_16 q)
+{
+    return (q >= Q16_16_ZERO) ? q : -q;
+}
+
 static inline q16_16 q16_16_add(q16_16 q1, q16_16 q2)
 {
     return q1 + q2;
@@ -314,6 +319,20 @@ static inline q16_16 q16_16_cot(q16_16 q)
         return (c >= Q16_16_ZERO) ? Q16_16_MAX : Q16_16_MIN;
 
     return q16_16_div(c, s);
+}
+
+// -------------------------------- EPSILON -------------------------------- //
+
+#define Q16_16_EPSILON  ((q16_16)1) // 2^(-16)
+
+static inline bool q16_16_epsilon_equal(q16_16 q1, q16_16 q2, q16_16 epsilon)
+{
+    return q16_16_abs(q16_16_sub(q1, q2)) < epsilon;
+}
+
+static inline bool q16_16_epsilon_not_equal(q16_16 q1, q16_16 q2, q16_16 epsilon)
+{
+    return q16_16_abs(q16_16_sub(q1, q2)) >= epsilon;
 }
 
 #endif // __Q16_16_H__

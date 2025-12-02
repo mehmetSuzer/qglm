@@ -21,5 +21,10 @@
 #include "matrix/q16_16_mat4x3.h"
 #include "matrix/q16_16_mat4.h"
 
+#include "geometry/ray.h"
+#include "geometry/plane.h"
+#include "geometry/sphere.h"
+#include "geometry/triangle.h"
+
 #endif // __QGLM_H__
 

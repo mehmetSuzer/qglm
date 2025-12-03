@@ -6,6 +6,7 @@
 #include "vector/q16_16_vec.h"
 #include "quat/q16_16_quat.h"
 #include "matrix/q16_16_mat.h"
+#include "transformation/q16_16_transformation.h"
 
 #endif // __Q16_16_GLM_H__
 

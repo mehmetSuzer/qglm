@@ -21,23 +21,23 @@ typedef union
     Q_TYPE raw[4];
 } Q_VEC4;
 
-#define Q_VEC4_ZERO     ((Q_VEC4){{Q_ZERO, Q_ZERO, Q_ZERO, Q_ZERO}})
-#define Q_VEC4_ONE      ((Q_VEC4){{ Q_ONE,  Q_ONE,  Q_ONE,  Q_ONE}})
+#define Q_VEC4_ZERO     ((Q_VEC4){{ Q_ZERO,  Q_ZERO,  Q_ZERO,  Q_ZERO}})
+#define Q_VEC4_ONE      ((Q_VEC4){{  Q_ONE,   Q_ONE,   Q_ONE,   Q_ONE}})
 
-#define Q_VEC4_RIGHT    ((Q_VEC4){{ Q_ONE, Q_ZERO, Q_ZERO, Q_ZERO}})
-#define Q_VEC4_LEFT     ((Q_VEC4){{-Q_ONE, Q_ZERO, Q_ZERO, Q_ZERO}})
-#define Q_VEC4_UP       ((Q_VEC4){{Q_ZERO,  Q_ONE, Q_ZERO, Q_ZERO}})
-#define Q_VEC4_DOWN     ((Q_VEC4){{Q_ZERO, -Q_ONE, Q_ZERO, Q_ZERO}})
-#define Q_VEC4_BACKWARD ((Q_VEC4){{Q_ZERO, Q_ZERO,  Q_ONE, Q_ZERO}})
-#define Q_VEC4_FORWARD  ((Q_VEC4){{Q_ZERO, Q_ZERO, -Q_ONE, Q_ZERO}})
+#define Q_VEC4_RIGHT    ((Q_VEC4){{  Q_ONE,  Q_ZERO,  Q_ZERO,  Q_ZERO}})
+#define Q_VEC4_LEFT     ((Q_VEC4){{Q_M_ONE,  Q_ZERO,  Q_ZERO,  Q_ZERO}})
+#define Q_VEC4_UP       ((Q_VEC4){{ Q_ZERO,   Q_ONE,  Q_ZERO,  Q_ZERO}})
+#define Q_VEC4_DOWN     ((Q_VEC4){{ Q_ZERO, Q_M_ONE,  Q_ZERO,  Q_ZERO}})
+#define Q_VEC4_BACKWARD ((Q_VEC4){{ Q_ZERO,  Q_ZERO,   Q_ONE,  Q_ZERO}})
+#define Q_VEC4_FORWARD  ((Q_VEC4){{ Q_ZERO,  Q_ZERO, Q_M_ONE,  Q_ZERO}})
 
 static inline Q_VEC4 q_vec4_negate(Q_VEC4 v) 
 {
     return (Q_VEC4){{
-        -v.x,
-        -v.y,
-        -v.z,
-        -v.w,
+        q_negate(v.x),
+        q_negate(v.y),
+        q_negate(v.z),
+        q_negate(v.w),
     }};
 }
 
@@ -88,6 +88,26 @@ static inline Q_VEC4 q_vec4_scale(Q_VEC4 v, Q_TYPE q)
         q_mul(v.y, q),
         q_mul(v.z, q),
         q_mul(v.w, q),
+    }};
+}
+
+static inline Q_VEC4 q_vec4_upscale_pow_2(Q_VEC4 v, uint32_t power)
+{
+    return (Q_VEC4){{
+        q_mul_pow_2(v.x, power),
+        q_mul_pow_2(v.y, power),
+        q_mul_pow_2(v.z, power),
+        q_mul_pow_2(v.w, power),
+    }};
+}
+
+static inline Q_VEC4 q_vec4_downscale_pow_2(Q_VEC4 v, uint32_t power)
+{
+    return (Q_VEC4){{
+        q_div_pow_2(v.x, power),
+        q_div_pow_2(v.y, power),
+        q_div_pow_2(v.z, power),
+        q_div_pow_2(v.w, power),
     }};
 }
 

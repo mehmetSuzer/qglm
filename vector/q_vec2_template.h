@@ -27,19 +27,19 @@ typedef union
     Q_TYPE raw[2];
 } Q_VEC2;
 
-#define Q_VEC2_ZERO    ((Q_VEC2){{Q_ZERO, Q_ZERO}})
-#define Q_VEC2_ONE     ((Q_VEC2){{ Q_ONE,  Q_ONE}})
+#define Q_VEC2_ZERO    ((Q_VEC2){{ Q_ZERO,  Q_ZERO}})
+#define Q_VEC2_ONE     ((Q_VEC2){{  Q_ONE,   Q_ONE}})
 
-#define Q_VEC2_RIGHT   ((Q_VEC2){{ Q_ONE, Q_ZERO}})
-#define Q_VEC2_LEFT    ((Q_VEC2){{-Q_ONE, Q_ZERO}})
-#define Q_VEC2_UP      ((Q_VEC2){{Q_ZERO,  Q_ONE}})
-#define Q_VEC2_DOWN    ((Q_VEC2){{Q_ZERO, -Q_ONE}})
+#define Q_VEC2_RIGHT   ((Q_VEC2){{  Q_ONE,  Q_ZERO}})
+#define Q_VEC2_LEFT    ((Q_VEC2){{Q_M_ONE,  Q_ZERO}})
+#define Q_VEC2_UP      ((Q_VEC2){{ Q_ZERO,   Q_ONE}})
+#define Q_VEC2_DOWN    ((Q_VEC2){{ Q_ZERO, Q_M_ONE}})
 
 static inline Q_VEC2 q_vec2_negate(Q_VEC2 v) 
 {
     return (Q_VEC2){{
-        -v.x,
-        -v.y,
+        q_negate(v.x),
+        q_negate(v.y),
     }};
 }
 
@@ -80,6 +80,22 @@ static inline Q_VEC2 q_vec2_scale(Q_VEC2 v, Q_TYPE q)
     return (Q_VEC2){{
         q_mul(v.x, q), 
         q_mul(v.y, q),
+    }};
+}
+
+static inline Q_VEC2 q_vec2_upscale_pow_2(Q_VEC2 v, uint32_t power)
+{
+    return (Q_VEC2){{
+        q_mul_pow_2(v.x, power),
+        q_mul_pow_2(v.y, power),
+    }};
+}
+
+static inline Q_VEC2 q_vec2_downscale_pow_2(Q_VEC2 v, uint32_t power)
+{
+    return (Q_VEC2){{
+        q_div_pow_2(v.x, power),
+        q_div_pow_2(v.y, power),
     }};
 }
 

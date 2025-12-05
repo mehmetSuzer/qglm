@@ -205,7 +205,10 @@ static inline Q_MAT4 q_mat4_inv(Q_MAT4 m)
         q_add(q_sub(q_mul(m.xx, factor14), q_mul(m.xy, factor16)), q_mul(m.xz, factor17)),
     }};
 
-    const Q_TYPE det = q_add(q_add(q_add(q_mul(m.xx, conjugate.xx), q_mul(m.xy, conjugate.yx)), q_mul(m.xz, conjugate.zx)), q_mul(m.xw, conjugate.wx));
+    const Q_TYPE det = q_add(
+        q_add(q_mul(m.xx, conjugate.xx), q_mul(m.xy, conjugate.yx)), 
+        q_add(q_mul(m.xz, conjugate.zx), q_mul(m.xw, conjugate.wx))
+    );
     const Q_TYPE inv_det = q_div(Q_ONE, det);
 
     return q_mat4_scale(conjugate, inv_det);

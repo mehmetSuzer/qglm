@@ -25,22 +25,22 @@ typedef union
     Q_TYPE raw[3];
 } Q_VEC3;
 
-#define Q_VEC3_ZERO     ((Q_VEC3){{Q_ZERO, Q_ZERO, Q_ZERO}})
-#define Q_VEC3_ONE      ((Q_VEC3){{ Q_ONE,  Q_ONE,  Q_ONE}})
+#define Q_VEC3_ZERO     ((Q_VEC3){{ Q_ZERO,  Q_ZERO,  Q_ZERO}})
+#define Q_VEC3_ONE      ((Q_VEC3){{  Q_ONE,   Q_ONE,   Q_ONE}})
 
-#define Q_VEC3_RIGHT    ((Q_VEC3){{ Q_ONE, Q_ZERO, Q_ZERO}})
-#define Q_VEC3_LEFT     ((Q_VEC3){{-Q_ONE, Q_ZERO, Q_ZERO}})
-#define Q_VEC3_UP       ((Q_VEC3){{Q_ZERO,  Q_ONE, Q_ZERO}})
-#define Q_VEC3_DOWN     ((Q_VEC3){{Q_ZERO, -Q_ONE, Q_ZERO}})
-#define Q_VEC3_BACKWARD ((Q_VEC3){{Q_ZERO, Q_ZERO,  Q_ONE}})
-#define Q_VEC3_FORWARD  ((Q_VEC3){{Q_ZERO, Q_ZERO, -Q_ONE}})
+#define Q_VEC3_RIGHT    ((Q_VEC3){{  Q_ONE,  Q_ZERO,  Q_ZERO}})
+#define Q_VEC3_LEFT     ((Q_VEC3){{Q_M_ONE,  Q_ZERO,  Q_ZERO}})
+#define Q_VEC3_UP       ((Q_VEC3){{ Q_ZERO,   Q_ONE,  Q_ZERO}})
+#define Q_VEC3_DOWN     ((Q_VEC3){{ Q_ZERO, Q_M_ONE,  Q_ZERO}})
+#define Q_VEC3_BACKWARD ((Q_VEC3){{ Q_ZERO,  Q_ZERO,   Q_ONE}})
+#define Q_VEC3_FORWARD  ((Q_VEC3){{ Q_ZERO,  Q_ZERO, Q_M_ONE}})
 
 static inline Q_VEC3 q_vec3_negate(Q_VEC3 v) 
 {
     return (Q_VEC3){{
-        -v.x,
-        -v.y,
-        -v.z,
+        q_negate(v.x),
+        q_negate(v.y),
+        q_negate(v.z),
     }};
 }
 
@@ -86,6 +86,24 @@ static inline Q_VEC3 q_vec3_scale(Q_VEC3 v, Q_TYPE q)
         q_mul(v.x, q), 
         q_mul(v.y, q),
         q_mul(v.z, q),
+    }};
+}
+
+static inline Q_VEC3 q_vec3_upscale_pow_2(Q_VEC3 v, uint32_t power)
+{
+    return (Q_VEC3){{
+        q_mul_pow_2(v.x, power),
+        q_mul_pow_2(v.y, power),
+        q_mul_pow_2(v.z, power),
+    }};
+}
+
+static inline Q_VEC3 q_vec3_downscale_pow_2(Q_VEC3 v, uint32_t power)
+{
+    return (Q_VEC3){{
+        q_div_pow_2(v.x, power),
+        q_div_pow_2(v.y, power),
+        q_div_pow_2(v.z, power),
     }};
 }
 
@@ -138,18 +156,18 @@ static inline Q_VEC3 q_vec3_cross(Q_VEC3 v1, Q_VEC3 v2)
     return (Q_VEC3){{x, y, z}};
 }
 
-// u is a unit vector.
-// n is a unit normal.
+// REQUIREMENT: u must be a unit vector.
+// REQUIREMENT: n must be a unit normal.
 static inline Q_VEC3 q_vec3_reflect(Q_VEC3 u, Q_VEC3 n)
 {
-    const Q_TYPE scale = q_mul(Q_TWO, q_vec3_dot(n, u));
+    const Q_TYPE scale = q_mul_pow_2(q_vec3_dot(n, u), 1);
     const Q_VEC3 scaled_n = q_vec3_scale(n, scale);
     const Q_VEC3 reflect = q_vec3_sub(u, scaled_n);
     
     return reflect;
 }
 
-// u1 and u2 are unit vectors.
+// REQUREMENT: u1 and u2 must be unit vectors.
 static inline Q_VEC3 q_vec3_bisector(Q_VEC3 u1, Q_VEC3 u2)
 {
     const Q_VEC3 sum = q_vec3_add(u1, u2);

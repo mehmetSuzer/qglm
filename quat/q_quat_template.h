@@ -12,22 +12,10 @@ typedef struct
  
 static inline Q_QUAT q_quat_euler_angles(Q_VEC3 angles)
 {
-    const Q_VEC3 half_angles = {{
-        q_div_pow_2(angles.x, 1),
-        q_div_pow_2(angles.y, 1),
-        q_div_pow_2(angles.z, 1),
-    }};
+    const Q_VEC3 half_angles = q_vec3_downscale_pow_2(angles, 1);
     
-    const Q_VEC3 c = {{
-        q_cos(half_angles.x),
-        q_cos(half_angles.y),
-        q_cos(half_angles.z),
-    }};
-    const Q_VEC3 s = {{
-        q_sin(half_angles.x),
-        q_sin(half_angles.y),
-        q_sin(half_angles.z),
-    }};
+    const Q_VEC3 c = {{q_cos(half_angles.x), q_cos(half_angles.y), q_cos(half_angles.z)}};
+    const Q_VEC3 s = {{q_sin(half_angles.x), q_sin(half_angles.y), q_sin(half_angles.z)}};
 
     const Q_TYPE x = q_sub(q_mul(q_mul(s.x, c.y), c.z), q_mul(q_mul(c.x, s.y), s.z));
     const Q_TYPE y = q_add(q_mul(q_mul(c.x, s.y), c.z), q_mul(q_mul(s.x, c.y), s.z));
@@ -39,7 +27,7 @@ static inline Q_QUAT q_quat_euler_angles(Q_VEC3 angles)
     return (Q_QUAT){v, w};
 }
 
-// axis is a unit vector.
+// REQUIREMENT: axis must be a unit vector.
 static inline Q_QUAT q_quat_angle_axis(Q_VEC3 axis, Q_TYPE angle)
 {
     const Q_TYPE half_angle = q_div_pow_2(angle, 1);
@@ -85,10 +73,13 @@ static inline Q_QUAT q_quat_conjugate(Q_QUAT q)
 
 static inline Q_TYPE q_quat_norm2(Q_QUAT q)
 {
-    return q.v.x * q.v.x +
-           q.v.y * q.v.y +
-           q.v.z * q.v.z +
-           q.w   * q.w;
+    const Q_TYPE x2 = q_mul(q.v.x, q.v.x);
+    const Q_TYPE y2 = q_mul(q.v.y, q.v.y);
+    const Q_TYPE z2 = q_mul(q.v.z, q.v.z);
+    const Q_TYPE w2 = q_mul(q.w,   q.w);
+    const Q_TYPE norm2 = q_add(q_add(q_add(x2, y2), z2), w2);
+
+    return norm2;
 }
 
 static inline Q_TYPE q_quat_norm(Q_QUAT q)
@@ -144,13 +135,13 @@ static inline Q_QUAT q_vec3_mul_quat(Q_VEC3 v, Q_QUAT q)
     return (Q_QUAT){xyz, w};
 }
 
-// q is a unit quaternion.
+// REQUIREMENT: q must be a unit quaternion.
 static inline Q_VEC3 q_quat_rotate_vec3(Q_QUAT q, Q_VEC3 v)
 {
     const Q_VEC3 uv  = q_vec3_cross(q.v, v);
     const Q_VEC3 uuv = q_vec3_cross(q.v, uv);
     const Q_VEC3 wuv = q_vec3_scale(uv, q.w);
-    const Q_VEC3 two_sum = q_vec3_scale(q_vec3_add(wuv, uuv), Q_TWO);
+    const Q_VEC3 two_sum = q_vec3_upscale_pow_2(q_vec3_add(wuv, uuv), 1);
     const Q_VEC3 rotated = q_vec3_add(v, two_sum);
 
     return rotated;

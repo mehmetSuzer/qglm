@@ -226,13 +226,13 @@ static inline Q_TYPE q_cot(Q_TYPE q)
 
 #define Q_EPSILON  ((Q_TYPE)1) // The smallest fraction that be represented
 
-static inline bool q_epsilon_equal(Q_TYPE q1, Q_TYPE q2, Q_TYPE epsilon)
+static inline bool q_epsilon_eq(Q_TYPE q1, Q_TYPE q2, Q_TYPE epsilon)
 {
     const Q_TYPE abs_diff = q_abs(q_sub(q1, q2));
     return q_lt(abs_diff, epsilon);
 }
 
-static inline bool q_epsilon_not_equal(Q_TYPE q1, Q_TYPE q2, Q_TYPE epsilon)
+static inline bool q_epsilon_ne(Q_TYPE q1, Q_TYPE q2, Q_TYPE epsilon)
 {
     const Q_TYPE abs_diff = q_abs(q_sub(q1, q2));
     return q_ge(abs_diff, epsilon);

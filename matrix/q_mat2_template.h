@@ -109,9 +109,12 @@ static inline Q_MAT2 q_mat2_tr(Q_MAT2 m)
 
 static inline Q_TYPE q_mat2_det(Q_MAT2 m) 
 {
-    return q_sub(q_mul(m.xx, m.yy), q_mul(m.xy, m.yx));
+    const Q_TYPE det = q_sub(q_mul(m.xx, m.yy), q_mul(m.xy, m.yx));
+
+    return det;
 }
 
+// REQUIREMENT: det(m) != 0
 static inline Q_MAT2 q_mat2_inv(Q_MAT2 m) 
 {
     const Q_TYPE inv_det = q_div(Q_ONE, q_mat2_det(m));
@@ -122,6 +125,7 @@ static inline Q_MAT2 q_mat2_inv(Q_MAT2 m)
     }};
 }
 
+// REQUIREMENT: det(m) != 0
 static inline Q_VEC2 q_mat2_solve(Q_MAT2 m, Q_VEC2 v) 
 {
     const Q_TYPE inv_det = q_div(Q_ONE, q_mat2_det(m));

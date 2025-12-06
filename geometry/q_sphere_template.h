@@ -5,10 +5,10 @@
 typedef struct
 {
     Q_VEC3 centre;
-    Q_TYPE radius; // must be positive
-} sphere_t;
+    Q_TYPE radius; // REQUIREMENT: radius must be positive.
+} Q_SPHERE;
 
-static inline Q_VEC3 sphere_normal_at(sphere_t sphere, Q_VEC3 point_on_sphere)
+static inline Q_VEC3 q_sphere_normal_at(Q_SPHERE sphere, Q_VEC3 point_on_sphere)
 {
     const Q_TYPE inv_radius = q_div(Q_ONE, sphere.radius);
     const Q_VEC3 centre_to_point = q_vec3_sub(point_on_sphere, sphere.centre);
@@ -17,7 +17,7 @@ static inline Q_VEC3 sphere_normal_at(sphere_t sphere, Q_VEC3 point_on_sphere)
     return normal;
 }
 
-static inline Q_VEC3 sphere_normal_towards(sphere_t sphere, Q_VEC3 point)
+static inline Q_VEC3 q_sphere_normal_towards(Q_SPHERE sphere, Q_VEC3 point)
 {
     const Q_VEC3 centre_to_point = q_vec3_sub(point, sphere.centre);
     const Q_VEC3 normal = q_vec3_normalise(centre_to_point);
@@ -25,7 +25,7 @@ static inline Q_VEC3 sphere_normal_towards(sphere_t sphere, Q_VEC3 point)
     return normal;
 }
 
-static inline bool sphere_intersects_ray(sphere_t sphere, ray_t ray, Q_TYPE near, Q_TYPE far, Q_TYPE* dist_out)
+static inline bool q_sphere_intersects_ray(Q_SPHERE sphere, Q_RAY ray, Q_TYPE near, Q_TYPE far, Q_TYPE* dist_out)
 {
     const Q_VEC3 centre_to_source = q_vec3_sub(ray.source, sphere.centre);
     const Q_TYPE dist2 = q_vec3_mag2(centre_to_source);
@@ -35,7 +35,7 @@ static inline bool sphere_intersects_ray(sphere_t sphere, ray_t ray, Q_TYPE near
     const Q_TYPE radius2 = q_mul(sphere.radius, sphere.radius);
     const Q_TYPE quarter_discriminant = q_add(q_sub(dot2, dist2), radius2);
 
-    if (quarter_discriminant < Q_EPSILON)
+    if (q_lt(quarter_discriminant, Q_EPSILON))
         return false;
 
     const Q_TYPE half_sqrt_discriminant = q_sqrt(quarter_discriminant);

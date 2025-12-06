@@ -10,8 +10,13 @@ typedef union
         Q_TYPE yx, yy, yz, yw;
         Q_TYPE zx, zy, zz, zw;
     };
+    struct
+    {
+        Q_VEC4 x; // row 0
+        Q_VEC4 y; // row 1
+        Q_VEC4 z; // row 2
+    };
     Q_TYPE raw[3][4];
-    Q_VEC4 rows[3];
 } Q_MAT3X4;
 
 

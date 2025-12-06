@@ -11,8 +11,14 @@ typedef union
         Q_TYPE zx, zy, zz, zw;
         Q_TYPE wx, wy, wz, ww;
     };
+    struct
+    {
+        Q_VEC4 x; // row 0
+        Q_VEC4 y; // row 1
+        Q_VEC4 z; // row 2
+        Q_VEC4 w; // row 3
+    };
     Q_TYPE raw[4][4];
-    Q_VEC4 rows[4];
 } Q_MAT4;
 
 
@@ -188,8 +194,26 @@ static inline Q_MAT4 q_mat4_inv(Q_MAT4 m)
 // REQUIREMENT: det(m) != 0
 static inline Q_VEC4 q_mat4_solve(Q_MAT4 m, Q_VEC4 v)
 {
-    // TODO: implement this function
-    return q_mat4_mul_vec4(m, v);
+    /*
+    const Q_TYPE factor00 = q_sub(q_mul(m.zz, m.ww), q_mul(m.zw, m.wz));
+    const Q_TYPE factor01 = q_sub(q_mul(m.zy, m.ww), q_mul(m.zw, m.wy));
+    const Q_TYPE factor02 = q_sub(q_mul(m.zy, m.wz), q_mul(m.zz, m.wy));
+    const Q_TYPE factor03 = q_sub(q_mul(m.zx, m.ww), q_mul(m.zw, m.wx)); 
+    const Q_TYPE factor04 = q_sub(q_mul(m.zx, m.wz), q_mul(m.zz, m.wx));
+    const Q_TYPE factor05 = q_sub(q_mul(m.zx, m.wy), q_mul(m.zy, m.wx));
+
+    const Q_TYPE coef0 = q_add(q_sub(q_mul(m.yy, factor0), q_mul(m.yz, factor1)), q_mul(m.yw, factor2));
+	const Q_TYPE coef1 = q_add(q_sub(q_mul(m.yx, factor0), q_mul(m.yz, factor3)), q_mul(m.yw, factor4));
+	const Q_TYPE coef2 = q_add(q_sub(q_mul(m.yx, factor1), q_mul(m.yy, factor3)), q_mul(m.yw, factor5));
+	const Q_TYPE coef3 = q_add(q_sub(q_mul(m.yx, factor2), q_mul(m.yy, factor4)), q_mul(m.yz, factor5));
+
+    const Q_TYPE det = q_add(
+        q_sub(q_mul(m.xx, coef0), q_mul(m.xy, coef1)), 
+        q_sub(q_mul(m.xz, coef2), q_mul(m.xw, coef3))
+    );
+    */
+
+    return q_mat4_mul_vec4(q_mat4_inv(m), v);
 }
 
 #endif // __Q_MAT4_TEMPLATE_H__

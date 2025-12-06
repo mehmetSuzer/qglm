@@ -9,8 +9,12 @@ typedef union
         Q_TYPE xx, xy;
         Q_TYPE yx, yy;
     };
+    struct
+    {
+        Q_VEC2 x; // row 0
+        Q_VEC2 y; // row 1
+    };
     Q_TYPE raw[2][2];
-    Q_VEC2 rows[2];
 } Q_MAT2;
 
 

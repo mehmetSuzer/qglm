@@ -11,8 +11,14 @@ typedef union
         Q_TYPE zx, zy;
         Q_TYPE wx, wy;
     };
+    struct
+    {
+        Q_VEC2 x; // row 0
+        Q_VEC2 y; // row 1
+        Q_VEC2 z; // row 2
+        Q_VEC2 w; // row 3
+    };
     Q_TYPE raw[4][2];
-    Q_VEC2 rows[4];
 } Q_MAT4X2;
 
 #define Q_MAT4X2_ZERO ((Q_MAT4X2){{ \

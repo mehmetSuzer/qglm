@@ -88,25 +88,6 @@ static inline Q_VEC2 q_mat2_mul_vec2(Q_MAT2 m, Q_VEC2 v)
     }};
 }
 
-static inline Q_MAT2 q_mat2_mul_mat2(Q_MAT2 m1, Q_MAT2 m2) 
-{
-    return (Q_MAT2){{
-        q_add(q_mul(m1.xx, m2.xx), q_mul(m1.xy, m2.yx)), 
-        q_add(q_mul(m1.xx, m2.xy), q_mul(m1.xy, m2.yy)),
-
-        q_add(q_mul(m1.yx, m2.xx), q_mul(m1.yy, m2.yx)), 
-        q_add(q_mul(m1.yx, m2.xy), q_mul(m1.yy, m2.yy)),
-    }};
-}
-
-static inline Q_MAT2 q_mat2_tr(Q_MAT2 m) 
-{
-    return (Q_MAT2){{
-        m.xx, m.yx, 
-        m.xy, m.yy,
-    }};
-}
-
 static inline Q_TYPE q_mat2_det(Q_MAT2 m) 
 {
     const Q_TYPE det = q_sub(q_mul(m.xx, m.yy), q_mul(m.xy, m.yx));

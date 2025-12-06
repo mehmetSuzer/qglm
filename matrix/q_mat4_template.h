@@ -110,41 +110,6 @@ static inline Q_VEC4 q_mat4_mul_vec4(Q_MAT4 m, Q_VEC4 v)
     }};
 }
 
-static inline Q_MAT4 q_mat4_mul_mat4(Q_MAT4 m1, Q_MAT4 m2) 
-{
-    return (Q_MAT4){{
-        q_add(q_add(q_add(q_mul(m1.xx, m2.xx), q_mul(m1.xy, m2.yx)), q_mul(m1.xz, m2.zx)), q_mul(m1.xw, m2.wx)),
-        q_add(q_add(q_add(q_mul(m1.xx, m2.xy), q_mul(m1.xy, m2.yy)), q_mul(m1.xz, m2.zy)), q_mul(m1.xw, m2.wy)),
-        q_add(q_add(q_add(q_mul(m1.xx, m2.xz), q_mul(m1.xy, m2.yz)), q_mul(m1.xz, m2.zz)), q_mul(m1.xw, m2.wz)),
-        q_add(q_add(q_add(q_mul(m1.xx, m2.xw), q_mul(m1.xy, m2.yw)), q_mul(m1.xz, m2.zw)), q_mul(m1.xw, m2.ww)),
-        
-        q_add(q_add(q_add(q_mul(m1.yx, m2.xx), q_mul(m1.yy, m2.yx)), q_mul(m1.yz, m2.zx)), q_mul(m1.yw, m2.wx)),
-        q_add(q_add(q_add(q_mul(m1.yx, m2.xy), q_mul(m1.yy, m2.yy)), q_mul(m1.yz, m2.zy)), q_mul(m1.yw, m2.wy)),
-        q_add(q_add(q_add(q_mul(m1.yx, m2.xz), q_mul(m1.yy, m2.yz)), q_mul(m1.yz, m2.zz)), q_mul(m1.yw, m2.wz)),
-        q_add(q_add(q_add(q_mul(m1.yx, m2.xw), q_mul(m1.yy, m2.yw)), q_mul(m1.yz, m2.zw)), q_mul(m1.yw, m2.ww)),
-        
-        q_add(q_add(q_add(q_mul(m1.zx, m2.xx), q_mul(m1.zy, m2.yx)), q_mul(m1.zz, m2.zx)), q_mul(m1.zw, m2.wx)),
-        q_add(q_add(q_add(q_mul(m1.zx, m2.xy), q_mul(m1.zy, m2.yy)), q_mul(m1.zz, m2.zy)), q_mul(m1.zw, m2.wy)),
-        q_add(q_add(q_add(q_mul(m1.zx, m2.xz), q_mul(m1.zy, m2.yz)), q_mul(m1.zz, m2.zz)), q_mul(m1.zw, m2.wz)),
-        q_add(q_add(q_add(q_mul(m1.zx, m2.xw), q_mul(m1.zy, m2.yw)), q_mul(m1.zz, m2.zw)), q_mul(m1.zw, m2.ww)),
-        
-        q_add(q_add(q_add(q_mul(m1.wx, m2.xx), q_mul(m1.wy, m2.yx)), q_mul(m1.wz, m2.zx)), q_mul(m1.ww, m2.wx)),
-        q_add(q_add(q_add(q_mul(m1.wx, m2.xy), q_mul(m1.wy, m2.yy)), q_mul(m1.wz, m2.zy)), q_mul(m1.ww, m2.wy)),
-        q_add(q_add(q_add(q_mul(m1.wx, m2.xz), q_mul(m1.wy, m2.yz)), q_mul(m1.wz, m2.zz)), q_mul(m1.ww, m2.wz)),
-        q_add(q_add(q_add(q_mul(m1.wx, m2.xw), q_mul(m1.wy, m2.yw)), q_mul(m1.wz, m2.zw)), q_mul(m1.ww, m2.ww)),
-    }};
-}
-
-static inline Q_MAT4 q_mat4_tr(Q_MAT4 m) 
-{
-    return (Q_MAT4){{
-        m.xx, m.yx, m.zx, m.wx,
-        m.xy, m.yy, m.zy, m.wy,
-        m.xz, m.yz, m.zz, m.wz,
-        m.xw, m.yw, m.zw, m.ww,
-    }};
-}
-
 static inline Q_TYPE q_mat4_det(Q_MAT4 m) 
 {
     const Q_TYPE factor0 = q_sub(q_mul(m.zz, m.ww), q_mul(m.wz, m.zw));

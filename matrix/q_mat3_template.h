@@ -99,32 +99,6 @@ static inline Q_VEC3 q_mat3_mul_vec3(Q_MAT3 m, Q_VEC3 v)
     }};
 }
 
-static inline Q_MAT3 q_mat3_mul_mat3(Q_MAT3 m1, Q_MAT3 m2) 
-{
-    return (Q_MAT3){{
-        q_add(q_add(q_mul(m1.xx, m2.xx), q_mul(m1.xy, m2.yx)), q_mul(m1.xz, m2.zx)),
-        q_add(q_add(q_mul(m1.xx, m2.xy), q_mul(m1.xy, m2.yy)), q_mul(m1.xz, m2.zy)),
-        q_add(q_add(q_mul(m1.xx, m2.xz), q_mul(m1.xy, m2.yz)), q_mul(m1.xz, m2.zz)),
-        
-        q_add(q_add(q_mul(m1.yx, m2.xx), q_mul(m1.yy, m2.yx)), q_mul(m1.yz, m2.zx)),
-        q_add(q_add(q_mul(m1.yx, m2.xy), q_mul(m1.yy, m2.yy)), q_mul(m1.yz, m2.zy)),
-        q_add(q_add(q_mul(m1.yx, m2.xz), q_mul(m1.yy, m2.yz)), q_mul(m1.yz, m2.zz)),
-        
-        q_add(q_add(q_mul(m1.zx, m2.xx), q_mul(m1.zy, m2.yx)), q_mul(m1.zz, m2.zx)),
-        q_add(q_add(q_mul(m1.zx, m2.xy), q_mul(m1.zy, m2.yy)), q_mul(m1.zz, m2.zy)),
-        q_add(q_add(q_mul(m1.zx, m2.xz), q_mul(m1.zy, m2.yz)), q_mul(m1.zz, m2.zz)),
-    }};
-}
-
-static inline Q_MAT3 q_mat3_tr(Q_MAT3 m) 
-{
-    return (Q_MAT3){{
-        m.xx, m.yx, m.zx,
-        m.xy, m.yy, m.zy,
-        m.xz, m.yz, m.zz,
-    }};
-}
-
 static inline Q_TYPE q_mat3_det(Q_MAT3 m) 
 {
     const Q_TYPE x = q_mul(m.xx, q_sub(q_mul(m.yy, m.zz), q_mul(m.yz, m.zy)));

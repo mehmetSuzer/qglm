@@ -24,5 +24,8 @@
 #include "q_mat4x3_template.h"
 #include "q_mat4_template.h"
 
+#include "q_mat_tr_template.h"
+#include "q_mat_mul_template.h"
+
 #endif // __Q16_16_MAT_H__
 

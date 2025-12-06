@@ -161,6 +161,8 @@ static inline Q_TYPE q_sqrt(Q_TYPE q)
 
 // -------------------------------- TRIGONOMETRY -------------------------------- //
 
+// TODO: Implement conversion functions for degrees and radians
+
 static inline Q_TYPE q_wrap_pi(Q_TYPE q)
 {
     // q = fmod(q + pi, 2*pi) - pi;
@@ -177,7 +179,7 @@ static inline Q_TYPE q_sin(Q_TYPE q)
     q = q_wrap_pi(q);
     const Q_TYPE q2 = q_mul(q, q);
 
-#ifndef QGLM_FAST_MATH
+#ifdef QGLM_FAST_MATH
     const Q_TYPE factor0 = q_sub(Q_ONE, q_div(q2, Q_FROM_INT(6)));
 #else
     const Q_TYPE factor2 = q_sub(Q_ONE, q_div(q2, Q_FROM_INT(42)));

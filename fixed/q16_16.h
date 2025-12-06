@@ -19,12 +19,12 @@ typedef int32_t q16_16_t;
 #define Q_MIN        ((Q_TYPE)INT32_MIN)               // -32768.0
 #define Q_MAX        ((Q_TYPE)INT32_MAX)               // +32768.0 - 2^(-16)
 #define Q_ZERO       ((Q_TYPE)0)                       //  0.0
-#define Q_HALF       ((Q_TYPE)(+1 << (Q_FRAC_BITS-1))) // +0.5
-#define Q_ONE        ((Q_TYPE)(+1 << Q_FRAC_BITS))     // +1.0
-#define Q_TWO        ((Q_TYPE)(+2 << Q_FRAC_BITS))     // +2.0
-#define Q_M_HALF     ((Q_TYPE)(-1 << (Q_FRAC_BITS-1))) // -0.5
-#define Q_M_ONE      ((Q_TYPE)(-1 << Q_FRAC_BITS))     // -1.0
-#define Q_M_TWO      ((Q_TYPE)(-2 << Q_FRAC_BITS))     // -2.0
+#define Q_HALF       ((Q_TYPE)(1 << (Q_FRAC_BITS-1)))  // +0.5
+#define Q_ONE        ((Q_TYPE)(1 << Q_FRAC_BITS))      // +1.0
+#define Q_TWO        ((Q_TYPE)(2 << Q_FRAC_BITS))      // +2.0
+#define Q_M_HALF     ((Q_TYPE)-(1 << (Q_FRAC_BITS-1))) // -0.5
+#define Q_M_ONE      ((Q_TYPE)-(1 << Q_FRAC_BITS))     // -1.0
+#define Q_M_TWO      ((Q_TYPE)-(2 << Q_FRAC_BITS))     // -2.0
 #define Q_PI         ((Q_TYPE)205887)                  // pi
 #define Q_2PI        ((Q_TYPE)411775)                  // pi * 2.0
 #define Q_HALFPI     ((Q_TYPE)102943)                  // pi / 2.0

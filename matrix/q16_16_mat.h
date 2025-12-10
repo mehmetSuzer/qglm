@@ -3,6 +3,7 @@
 #define __Q16_16_MAT_H__
 
 #include "../vector/q16_16_vec.h"
+#include "../quat/q16_16_quat.h"
 
 #define Q_MAT2      q16_16_mat2_t
 #define Q_MAT2X3    q16_16_mat2x3_t
@@ -26,6 +27,7 @@
 
 #include "q_mat_tr_template.h"
 #include "q_mat_mul_template.h"
+#include "q_mat_cast_template.h"
 
 #endif // __Q16_16_MAT_H__
 

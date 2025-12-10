@@ -6,12 +6,19 @@
 
 // -------------------------------- CONVERSION -------------------------------- //
 
-#define Q_FROM_INT(x)   ((Q_TYPE)((x) << Q_FRAC_BITS))
-#define Q_TO_INT(q)     ((int32_t)((q) >> Q_FRAC_BITS))
-#define Q_FROM_FLOAT(x) ((Q_TYPE)((x) * (float)(1 << Q_FRAC_BITS)))
-#define Q_TO_FLOAT(q)   ((float)(q) / (float)(1 << Q_FRAC_BITS))
+#define Q_FROM_INT(x)       ((Q_TYPE)((x) << Q_FRAC_BITS))
+#define Q_TO_INT(q)         ((int32_t)((q) >> Q_FRAC_BITS))
+#define Q_FROM_FLOAT(x)     ((Q_TYPE)((x) * (float)(1 << Q_FRAC_BITS)))
+#define Q_TO_FLOAT(q)       ((float)(q) / (float)(1 << Q_FRAC_BITS))
+#define Q_FROM_DOUBLE(x)    ((Q_TYPE)((x) * (double)(1 << Q_FRAC_BITS)))
+#define Q_TO_DOUBLE(q)      ((double)(q) / (double)(1 << Q_FRAC_BITS))
 
 // -------------------------------- ARITHMETIC -------------------------------- //
+
+static inline Q_TYPE q_negate(Q_TYPE q)
+{
+    return -q;
+}
 
 static inline Q_TYPE q_add(Q_TYPE q1, Q_TYPE q2)
 {
@@ -35,6 +42,13 @@ static inline Q_TYPE q_div(Q_TYPE q1, Q_TYPE q2)
     return (Q_TYPE)(wide / q2);
 }
 
+static inline Q_TYPE q_mod(Q_TYPE q1, Q_TYPE q2)
+{
+    return q1 % q2;
+}
+
+// -------------------------------- ACCELERATED ARITHMETIC -------------------------------- //
+
 static inline Q_TYPE q_mul_pow_2(Q_TYPE q, uint32_t power)
 {
     return q << power;
@@ -45,7 +59,17 @@ static inline Q_TYPE q_div_pow_2(Q_TYPE q, uint32_t power)
     return q >> power;
 }
 
-// -------------------------------- LOGICAL -------------------------------- //
+static inline Q_TYPE q_mul_int(Q_TYPE q, int32_t n)
+{
+    return q * n;
+}
+
+static inline Q_TYPE q_div_int(Q_TYPE q, int32_t n)
+{
+    return q / n;
+}
+
+// -------------------------------- LOGIC -------------------------------- //
 
 static inline bool q_lt(Q_TYPE q1, Q_TYPE q2)
 {
@@ -79,11 +103,6 @@ static inline bool q_ne(Q_TYPE q1, Q_TYPE q2)
 
 // -------------------------------- UTILITY -------------------------------- //
 
-static inline Q_TYPE q_negate(Q_TYPE q)
-{
-    return -q;
-}
-
 static inline Q_TYPE q_sign(Q_TYPE q)
 {
     return q_gt(q, Q_ZERO) - q_lt(q, Q_ZERO);
@@ -112,6 +131,13 @@ static inline Q_TYPE q_interp(Q_TYPE q1, Q_TYPE q2, Q_TYPE alpha)
 static inline Q_TYPE q_clamp(Q_TYPE q, Q_TYPE min, Q_TYPE max)
 {
     return q_lt(q, min) ? min : q_gt(q, max) ? max : q;
+}
+
+static inline void q_swap(Q_TYPE* pq1, Q_TYPE* pq2)
+{
+    const Q_TYPE temp = *pq1;
+    *pq1 = *pq2;
+    *pq2 = temp;
 }
 
 // -------------------------------- ROUND -------------------------------- //
@@ -149,7 +175,7 @@ static inline Q_TYPE q_sqrt(Q_TYPE q)
     Q_TYPE x = q_div_pow_2(q_add(q, Q_ONE), 1);
 
     // Newton iteration(s)
-    // x_(n+1) = (x_n + q/x_n) / 2.0
+    // x_(k+1) = (x_k + q/x_k) / 2.0
     x = q_div_pow_2(q_add(x, q_div(q, x)), 1); 
 
     // Undo scaling
@@ -161,39 +187,55 @@ static inline Q_TYPE q_sqrt(Q_TYPE q)
 
 // -------------------------------- TRIGONOMETRY -------------------------------- //
 
-// TODO: Implement conversion functions for degrees and radians
+static inline Q_TYPE q_to_radian(Q_TYPE degree)
+{
+    return q_mul(degree, Q_TO_RADIAN);
+}
+
+static inline Q_TYPE q_to_degree(Q_TYPE radian)
+{
+    return q_mul(radian, Q_TO_DEGREE);
+}
 
 static inline Q_TYPE q_wrap_pi(Q_TYPE q)
 {
     // q = fmod(q + pi, 2*pi) - pi;
-    q += Q_PI;
-    q %= Q_2PI;
-    q -= Q_PI;
+    q = q_add(q, Q_PI);
+    q = q_mod(q, Q_2PI);
+    q = q_sub(q, Q_PI);
 
     return q; // q in [-pi, pi)
 }
 
-// sin(x) = x - x^3/3! + x^5/5! - x^7/7! + ...
+// TODO: Check the CORDIC implementations of sin, cos, tan, atan, vector magnitude, and vector rotations
+// TODO: implement a function that calculates sin and cos at the same time
+
+// sin(x) = x - x^3/3! + x^5/5! - x^7/7! + x^9/9! - ...
 static inline Q_TYPE q_sin(Q_TYPE q)
 {
     q = q_wrap_pi(q);
     const Q_TYPE q2 = q_mul(q, q);
 
-#ifdef QGLM_FAST_MATH
-    const Q_TYPE factor0 = q_sub(Q_ONE, q_div(q2, Q_FROM_INT(6)));
-#else
-    const Q_TYPE factor2 = q_sub(Q_ONE, q_div(q2, Q_FROM_INT(42)));
-    const Q_TYPE factor1 = q_sub(Q_ONE, q_mul(q_div(q2, Q_FROM_INT(20)), factor2));
-    const Q_TYPE factor0 = q_sub(Q_ONE, q_mul(q_div(q2, Q_FROM_INT(6)), factor1));
-#endif
+    const Q_TYPE factor3 = q_sub(Q_ONE, q_div_int(q2, 72));
+    const Q_TYPE factor2 = q_sub(Q_ONE, q_mul(q_div_int(q2, 42), factor3));
+    const Q_TYPE factor1 = q_sub(Q_ONE, q_mul(q_div_int(q2, 20), factor2));
+    const Q_TYPE factor0 = q_sub(Q_ONE, q_mul(q_div_int(q2,  6), factor1));
 
     return q_mul(q, factor0);
 }
 
-// cos(x) = sin(x + pi/2)
+// cos(x) = 1 - x^2/2! + x^4/4! - x^6/6! + x^8/8! - ...
 static inline Q_TYPE q_cos(Q_TYPE q)
 {
-    return q_sin(q_add(q, Q_HALFPI)); 
+    q = q_wrap_pi(q);
+    const Q_TYPE q2 = q_mul(q, q);
+
+    const Q_TYPE factor3 = q_sub(Q_ONE, q_div_int(q2, 56));
+    const Q_TYPE factor2 = q_sub(Q_ONE, q_mul(q_div_int(q2, 30), factor3));
+    const Q_TYPE factor1 = q_sub(Q_ONE, q_mul(q_div_int(q2, 12), factor2));
+    const Q_TYPE factor0 = q_sub(Q_ONE, q_mul(q_div_int(q2,  2), factor1));
+    
+    return factor0;
 }
 
 // tan(x) = sin(x) / cos(x)

@@ -49,6 +49,8 @@ typedef int32_t q16_16_t;
 #define Q_1_SQRT3    ((Q_TYPE)37837)                   // 1.0 / sqrt(3.0)
 #define Q_HALFSQRT3  ((Q_TYPE)56755)                   // 0.5 * sqrt(3.0)
 #define Q_1_2SQRT3   ((Q_TYPE)18918)                   // 0.5 / sqrt(3.0)
+#define Q_TO_RADIAN  ((Q_TYPE)1143)                    // pi / 180.0
+#define Q_TO_DEGREE  ((Q_TYPE)3754936)                 // 180.0 / pi
 
 #include "q_template.h"
 

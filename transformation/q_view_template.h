@@ -3,7 +3,7 @@
 #define __Q_VIEW_TEMPLATE_H__
 
 // REQUIREMENT: backward and up must be unit vectors that are perpendicular to each other.
-static inline Q_MAT4 view(Q_VEC3 eye, Q_VEC3 backward, Q_VEC3 up)
+static inline Q_MAT4 q_view(Q_VEC3 eye, Q_VEC3 backward, Q_VEC3 up)
 {
     const Q_VEC3 right = q_vec3_cross(up, backward);
 

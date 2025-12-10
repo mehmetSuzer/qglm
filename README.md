@@ -68,18 +68,11 @@ QGLM includes common transformation matrix constructors:
 
 ## ⚙️ Configuration Macros
 
-QGLM allows two build-time options to trade accuracy for speed or vice-versa:
-
-**QGLM_FAST_MATH**
-
-Enable fast, less accurate implementations of certain low-level functions.
-Suitable for performance-critical applications.
+QGLM allows one build-time option to trade safety for speed or vice-versa:
 
 **QGLM_SAFE_MATH**
 
-Enable slower, more precise functions with additional safety checks.
-
-Note: These modes are mutually exclusive.
+Enables slower and more precise functions with additional safety checks.
 
 
 ## 📁 Integration

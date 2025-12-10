@@ -22,9 +22,9 @@ typedef int32_t q24_8_t;
 #define Q_HALF       ((Q_TYPE)(+1 << (Q_FRAC_BITS-1))) // +0.5
 #define Q_ONE        ((Q_TYPE)(+1 << Q_FRAC_BITS))     // +1.0
 #define Q_TWO        ((Q_TYPE)(+2 << Q_FRAC_BITS))     // +2.0
-#define Q_M_HALF     ((Q_TYPE)(-1 << (Q_FRAC_BITS-1))) // -0.5
-#define Q_M_ONE      ((Q_TYPE)(-1 << Q_FRAC_BITS))     // -1.0
-#define Q_M_TWO      ((Q_TYPE)(-2 << Q_FRAC_BITS))     // -2.0
+#define Q_M_HALF     ((Q_TYPE)-(1 << (Q_FRAC_BITS-1))) // -0.5
+#define Q_M_ONE      ((Q_TYPE)-(1 << Q_FRAC_BITS))     // -1.0
+#define Q_M_TWO      ((Q_TYPE)-(2 << Q_FRAC_BITS))     // -2.0
 #define Q_PI         ((Q_TYPE)804)                     // pi
 #define Q_2PI        ((Q_TYPE)1608)                    // pi * 2.0
 #define Q_HALFPI     ((Q_TYPE)402)                     // pi / 2.0
@@ -49,6 +49,8 @@ typedef int32_t q24_8_t;
 #define Q_1_SQRT3    ((Q_TYPE)147)                     // 1.0 / sqrt(3.0)
 #define Q_HALFSQRT3  ((Q_TYPE)221)                     // 0.5 * sqrt(3.0)
 #define Q_1_2SQRT3   ((Q_TYPE)73)                      // 0.5 / sqrt(3.0)
+#define Q_TO_RADIAN  ((Q_TYPE)4)                       // pi / 180.0
+#define Q_TO_DEGREE  ((Q_TYPE)14667)                   // 180.0 / pi
 
 #include "q_template.h"
 

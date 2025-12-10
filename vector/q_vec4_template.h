@@ -21,15 +21,22 @@ typedef union
     Q_TYPE raw[4];
 } Q_VEC4;
 
-#define Q_VEC4_ZERO     ((Q_VEC4){{ Q_ZERO,  Q_ZERO,  Q_ZERO,  Q_ZERO}})
-#define Q_VEC4_ONE      ((Q_VEC4){{  Q_ONE,   Q_ONE,   Q_ONE,   Q_ONE}})
+#define Q_VEC4_ZERO            ((Q_VEC4){{ Q_ZERO,  Q_ZERO,  Q_ZERO,  Q_ZERO}})
+#define Q_VEC4_ONE             ((Q_VEC4){{  Q_ONE,   Q_ONE,   Q_ONE,   Q_ONE}})
 
-#define Q_VEC4_RIGHT    ((Q_VEC4){{  Q_ONE,  Q_ZERO,  Q_ZERO,  Q_ZERO}})
-#define Q_VEC4_LEFT     ((Q_VEC4){{Q_M_ONE,  Q_ZERO,  Q_ZERO,  Q_ZERO}})
-#define Q_VEC4_UP       ((Q_VEC4){{ Q_ZERO,   Q_ONE,  Q_ZERO,  Q_ZERO}})
-#define Q_VEC4_DOWN     ((Q_VEC4){{ Q_ZERO, Q_M_ONE,  Q_ZERO,  Q_ZERO}})
-#define Q_VEC4_BACKWARD ((Q_VEC4){{ Q_ZERO,  Q_ZERO,   Q_ONE,  Q_ZERO}})
-#define Q_VEC4_FORWARD  ((Q_VEC4){{ Q_ZERO,  Q_ZERO, Q_M_ONE,  Q_ZERO}})
+#define Q_VEC4_RIGHT_VECTOR    ((Q_VEC4){{  Q_ONE,  Q_ZERO,  Q_ZERO,  Q_ZERO}})
+#define Q_VEC4_LEFT_VECTOR     ((Q_VEC4){{Q_M_ONE,  Q_ZERO,  Q_ZERO,  Q_ZERO}})
+#define Q_VEC4_UP_VECTOR       ((Q_VEC4){{ Q_ZERO,   Q_ONE,  Q_ZERO,  Q_ZERO}})
+#define Q_VEC4_DOWN_VECTOR     ((Q_VEC4){{ Q_ZERO, Q_M_ONE,  Q_ZERO,  Q_ZERO}})
+#define Q_VEC4_BACKWARD_VECTOR ((Q_VEC4){{ Q_ZERO,  Q_ZERO,   Q_ONE,  Q_ZERO}})
+#define Q_VEC4_FORWARD_VECTOR  ((Q_VEC4){{ Q_ZERO,  Q_ZERO, Q_M_ONE,  Q_ZERO}})
+
+#define Q_VEC4_RIGHT_POINT     ((Q_VEC4){{  Q_ONE,  Q_ZERO,  Q_ZERO,   Q_ONE}})
+#define Q_VEC4_LEFT_POINT      ((Q_VEC4){{Q_M_ONE,  Q_ZERO,  Q_ZERO,   Q_ONE}})
+#define Q_VEC4_UP_POINT        ((Q_VEC4){{ Q_ZERO,   Q_ONE,  Q_ZERO,   Q_ONE}})
+#define Q_VEC4_DOWN_POINT      ((Q_VEC4){{ Q_ZERO, Q_M_ONE,  Q_ZERO,   Q_ONE}})
+#define Q_VEC4_BACKWARD_POINT  ((Q_VEC4){{ Q_ZERO,  Q_ZERO,   Q_ONE,   Q_ONE}})
+#define Q_VEC4_FORWARD_POINT   ((Q_VEC4){{ Q_ZERO,  Q_ZERO, Q_M_ONE,   Q_ONE}})
 
 static inline Q_VEC4 q_vec4_negate(Q_VEC4 v) 
 {

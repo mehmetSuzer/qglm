@@ -3,8 +3,8 @@
 #define __Q_VIEWPORT_TEMPLATE_H__
 
 // The origin of the window is the top left corner of the window.
-// The near plan is mapped to Q_ZERO, while the far plane is mapped to Q_ONE.
-static inline Q_MAT4 viewport(int32_t x, int32_t y, uint32_t width, uint32_t height)
+// The near plane is mapped to Q_ZERO, while the far plane is mapped to Q_ONE.
+static inline Q_MAT4 q_viewport(int32_t x, int32_t y, uint32_t width, uint32_t height)
 {
     const int32_t hw = (width  - 1) / 2;
     const int32_t hh = (height - 1) / 2;

@@ -38,6 +38,7 @@ static inline Q_MAT3 q_cast_mat4_to_mat3(Q_MAT4 m)
     }};
 }
 
+// REQUIREMENT: q must be a unit quaternion.
 static inline Q_MAT3 q_cast_quat_to_mat3(Q_QUAT q)
 {
     const Q_TYPE xx = q_mul_pow_2(q_mul(q.v.x, q.v.x), 1);
@@ -57,6 +58,7 @@ static inline Q_MAT3 q_cast_quat_to_mat3(Q_QUAT q)
     }};
 }
 
+// REQUIREMENT: q must be a unit quaternion.
 static inline Q_MAT4 q_cast_quat_to_mat4(Q_QUAT q)
 {
     return q_cast_mat3_to_mat4(q_cast_quat_to_mat3(q));

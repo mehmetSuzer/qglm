@@ -1,3 +1,4 @@
+
 # QGLM
 
 *A lightweight, header-only mathematics library for embedded graphics.*
@@ -10,15 +11,17 @@ It provides a compact but complete set of types and operations commonly needed f
 
 Header-only — easy integration, no linking required
 
+Designed for low-resource, deterministic, and real-time applications
+
 Fixed-point numeric types optimised for embedded hardware
 
 Vector, matrix, quaternion, and geometry primitives
 
+Translation, rotation, and scaling matrices
+
 Projection, view, and viewport transformation matrices
 
-Optional fast or safe math modes
-
-Designed for low-resource, deterministic, and real-time applications
+Optional safe math modes
 
 
 ## 📦 Fixed-Point Types
@@ -60,9 +63,12 @@ These form the numeric foundation for all higher-level types.
 
 QGLM includes common transformation matrix constructors:
 
+- Translation
+- Rotation
+- Scaling
 - Orthographic Projection
-- Perspective Projection
 - View Matrix
+- Perspective Projection
 - Viewport Matrix
 
 
@@ -89,25 +95,40 @@ Therefore, you should select one fixed-point type based on the requirements of y
 ```c
 #include "q16_16_glm.h"
 
-q16_16_vec3_t position = {{Q_FROM_INT(4), Q_FROM_FLOAT(-5.3f), Q_TWO}};
-q16_16_quat_t rotation = q_quat_angle_axis(Q_HALFPI, Q_VEC3_FORWARD);
-q16_16_vec3_t scale    = {{Q_TWO, Q_ONE, Q_HALF}};
+const Q_VEC3 position = {{Q_FROM_INT(4), Q_FROM_FLOAT(-5.3f), Q_TWO}}; // You can use q16_16_vec3_t instead of Q_VEC3
+const Q_QUAT rotation = q_quat_angle_axis(Q_HALFPI, Q_VEC3_FORWARD);   // You can use q16_16_quat_t instead of Q_QUAT
+const Q_VEC3 scale    = {{Q_TWO, Q_ONE, Q_HALF}};
+ 
+Q_MAT4 model = Q_MAT4_IDENTITY; // You can use q16_16_mat4_t instead of Q_MAT4
+q_translate_3d(&model, position);
+q_rotate_3d_quat(&model, rotation);
+q_scale_3d(&model, scale);
 ```
 
 ```c
 #include "q24_8_glm.h"
 
-q24_8_vec3_t position = {{Q_FROM_INT(4), Q_FROM_FLOAT(-5.3f), Q_TWO}};
-q24_8_quat_t rotation = q_quat_angle_axis(Q_HALFPI, Q_VEC3_FORWARD);
-q24_8_vec3_t scale    = {{Q_TWO, Q_ONE, Q_HALF}};
+const Q_VEC3 position = {{Q_FROM_INT(4), Q_FROM_FLOAT(-5.3f), Q_TWO}}; // You can use q24_8_vec3_t instead of Q_VEC3
+const Q_QUAT rotation = q_quat_angle_axis(Q_HALFPI, Q_VEC3_FORWARD);   // You can use q24_8_quat_t instead of Q_QUAT
+const Q_VEC3 scale    = {{Q_TWO, Q_ONE, Q_HALF}};
+ 
+Q_MAT4 model = Q_MAT4_IDENTITY; // You can use q24_8_mat4_t instead of Q_MAT4
+q_translate_3d(&model, position);
+q_rotate_3d_quat(&model, rotation);
+q_scale_3d(&model, scale);
 ```
 
 ```c
 #include "q8_24_glm.h"
 
-q8_24_vec3_t position = {{Q_FROM_INT(4), Q_FROM_FLOAT(-5.3f), Q_TWO}};
-q8_24_quat_t rotation = q_quat_angle_axis(Q_HALFPI, Q_VEC3_FORWARD);
-q8_24_vec3_t scale    = {{Q_TWO, Q_ONE, Q_HALF}};
+const Q_VEC3 position = {{Q_FROM_INT(4), Q_FROM_FLOAT(-5.3f), Q_TWO}}; // You can use q8_24_vec3_t instead of Q_VEC3
+const Q_QUAT rotation = q_quat_angle_axis(Q_HALFPI, Q_VEC3_FORWARD);   // You can use q8_24_quat_t instead of Q_QUAT
+const Q_VEC3 scale    = {{Q_TWO, Q_ONE, Q_HALF}};
+ 
+Q_MAT4 model = Q_MAT4_IDENTITY; // You can use q8_24_mat4_t instead of Q_MAT4
+q_translate_3d(&model, position);
+q_rotate_3d_quat(&model, rotation);
+q_scale_3d(&model, scale);
 ```
 
 
@@ -123,3 +144,4 @@ The library is still under active development and testing, so some bugs may stil
 ## 📄 License
 This project is licensed under the MIT License.  
 See the [LICENSE](LICENSE) file for details.
+

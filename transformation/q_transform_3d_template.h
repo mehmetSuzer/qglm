@@ -54,9 +54,16 @@ static inline Q_MAT4 q_rotate_mat4(Q_TYPE angle, Q_VEC3 axis)
 
 // REQUIREMENT: angle must be in radians.
 // REQUIREMENT: axis must be a unit vector.
-static inline void q_rotate_3d(Q_MAT4* m, Q_TYPE angle, Q_VEC3 axis)
+static inline void q_rotate_3d_angle_axis(Q_MAT4* m, Q_TYPE angle, Q_VEC3 axis)
 {
     const Q_MAT4 rotation = q_rotate_mat4(angle, axis);
+    *m = q_mat4_mul_mat4(*m, rotation);
+}
+
+// REQUIREMENT: q must be a unit quaternion.
+static inline void q_rotate_3d_quat(Q_MAT4* m, Q_QUAT q)
+{
+    const Q_MAT4 rotation = q_cast_quat_to_mat4(q);
     *m = q_mat4_mul_mat4(*m, rotation);
 }
 

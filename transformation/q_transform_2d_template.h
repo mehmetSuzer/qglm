@@ -1,6 +1,6 @@
 
-#ifndef __Q_TRANSFORM_2D_TEMPLATE_H__
-#define __Q_TRANSFORM_2D_TEMPLATE_H__
+#ifndef QGLM_Q_TRANSFORM_2D_TEMPLATE_H
+#define QGLM_Q_TRANSFORM_2D_TEMPLATE_H
 
 static inline Q_MAT3 q_translate_mat3(Q_VEC2 v)
 {
@@ -11,6 +11,7 @@ static inline Q_MAT3 q_translate_mat3(Q_VEC2 v)
     }};
 }
 
+// M <- M * T
 static inline void q_translate_2d(Q_MAT3* m, Q_VEC2 v)
 {
     const Q_TYPE dx = q_add(q_mul(m->xx, v.x), q_mul(m->xy, v.y));
@@ -36,11 +37,29 @@ static inline Q_MAT3 q_rotate_mat3(Q_TYPE angle)
     }};
 }
 
+// M <- M * R
 // REQUIREMENT: angle must be in radians.
 static inline void q_rotate_2d(Q_MAT3* m, Q_TYPE angle)
 {
-    const Q_MAT3 rotation = q_rotate_mat3(angle);
-    *m = q_mat3_mul_mat3(*m, rotation);
+    const Q_TYPE p_s = q_sin(angle);
+    const Q_TYPE n_s = q_negate(p_s);
+    const Q_TYPE p_c = q_cos(angle);
+
+    const Q_TYPE xx = q_add(q_mul(m->xx, p_c), q_mul(m->xy, p_s)); 
+    const Q_TYPE yx = q_add(q_mul(m->yx, p_c), q_mul(m->yy, p_s)); 
+    const Q_TYPE zx = q_add(q_mul(m->zx, p_c), q_mul(m->zy, p_s)); 
+
+    const Q_TYPE xy = q_add(q_mul(m->xx, n_s), q_mul(m->xy, p_c)); 
+    const Q_TYPE yy = q_add(q_mul(m->yx, n_s), q_mul(m->yy, p_c)); 
+    const Q_TYPE zy = q_add(q_mul(m->zx, n_s), q_mul(m->zy, p_c)); 
+    
+    m->xx = xx;
+    m->yx = yx;
+    m->zx = zx;
+
+    m->xy = xy;
+    m->yy = yy;
+    m->zy = zy;
 }
 
 static inline Q_MAT3 q_scale_mat3(Q_VEC2 v)
@@ -52,6 +71,7 @@ static inline Q_MAT3 q_scale_mat3(Q_VEC2 v)
     }};
 }
 
+// M <- M * S
 static inline void q_scale_2d(Q_MAT3* m, Q_VEC2 v)
 {
     m->xx = q_mul(m->xx, v.x);
@@ -62,5 +82,5 @@ static inline void q_scale_2d(Q_MAT3* m, Q_VEC2 v)
     m->zy = q_mul(m->zy, v.y);
 }
 
-#endif // __Q_TRANSFORM_2D_TEMPLATE_H__
+#endif // QGLM_Q_TRANSFORM_2D_TEMPLATE_H
 

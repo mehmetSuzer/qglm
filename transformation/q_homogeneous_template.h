@@ -1,6 +1,6 @@
 
-#ifndef __Q_HOMOGENEOUS_TEMPLATE_H__
-#define __Q_HOMOGENEOUS_TEMPLATE_H__
+#ifndef QGLM_Q_HOMOGENEOUS_TEMPLATE_H
+#define QGLM_Q_HOMOGENEOUS_TEMPLATE_H
 
 static inline Q_VEC4 q_homogeneous_vector(Q_VEC3 v)
 {
@@ -51,5 +51,5 @@ static inline Q_VEC4 q_homogeneous_point_normalise(Q_VEC4 v)
     }};
 }
 
-#endif // __Q_HOMOGENEOUS_TEMPLATE_H__
+#endif // QGLM_Q_HOMOGENEOUS_TEMPLATE_H
 

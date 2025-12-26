@@ -1,6 +1,6 @@
 
-#ifndef __Q8_24_H__
-#define __Q8_24_H__
+#ifndef QGLM_Q8_24_H
+#define QGLM_Q8_24_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -54,5 +54,5 @@ typedef int32_t q8_24_t;
 
 #include "q_template.h"
 
-#endif // __Q8_24_H__
+#endif // QGLM_Q8_24_H
 

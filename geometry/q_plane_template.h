@@ -1,6 +1,6 @@
 
-#ifndef __Q_PLANE_TEMPLATE_H__
-#define __Q_PLANE_TEMPLATE_H__
+#ifndef QGLM_Q_PLANE_TEMPLATE_H
+#define QGLM_Q_PLANE_TEMPLATE_H
 
 typedef struct
 {
@@ -31,5 +31,5 @@ static inline bool q_plane_intersects_ray(Q_PLANE plane, Q_RAY ray, Q_TYPE near,
     return false;
 }
 
-#endif // __Q_PLANE_TEMPLATE_H__
+#endif // QGLM_Q_PLANE_TEMPLATE_H
 

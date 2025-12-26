@@ -1,6 +1,6 @@
 
-#ifndef __Q_TEMPLATE_H__
-#define __Q_TEMPLATE_H__
+#ifndef QGLM_Q_TEMPLATE_H
+#define QGLM_Q_TEMPLATE_H
 
 // TODO: implement safe versions of these functions
 
@@ -69,7 +69,7 @@ static inline Q_TYPE q_div_int(Q_TYPE q, int32_t n)
     return q / n;
 }
 
-// -------------------------------- LOGIC -------------------------------- //
+// -------------------------------- COMPARISON -------------------------------- //
 
 static inline bool q_lt(Q_TYPE q1, Q_TYPE q2)
 {
@@ -208,7 +208,10 @@ static inline Q_TYPE q_wrap_pi(Q_TYPE q)
 }
 
 // TODO: Check the CORDIC implementations of sin, cos, tan, atan, vector magnitude, and vector rotations
-// TODO: implement a function that calculates sin and cos at the same time
+// TODO: Implement a function that calculates sin and cos at the same time
+// TODO: Implement inverse trigonometric functions
+// TODO: Implement exponential functions
+// TODO: Implement logarithmic functions
 
 // sin(x) = x - x^3/3! + x^5/5! - x^7/7! + x^9/9! - ...
 static inline Q_TYPE q_sin(Q_TYPE q)
@@ -282,5 +285,5 @@ static inline bool q_epsilon_ne(Q_TYPE q1, Q_TYPE q2, Q_TYPE epsilon)
     return q_ge(abs_diff, epsilon);
 }
 
-#endif // __Q_TEMPLATE_H__
+#endif // QGLM_Q_TEMPLATE_H
 

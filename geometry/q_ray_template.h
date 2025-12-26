@@ -1,6 +1,6 @@
 
-#ifndef __Q_RAY_TEMPLATE_H__
-#define __Q_RAY_TEMPLATE_H__
+#ifndef QGLM_Q_RAY_TEMPLATE_H
+#define QGLM_Q_RAY_TEMPLATE_H
 
 typedef struct
 {
@@ -12,9 +12,8 @@ static inline Q_VEC3 q_ray_at(Q_RAY ray, Q_TYPE distance)
 {
     const Q_VEC3 forward = q_vec3_scale(ray.direction, distance);
     const Q_VEC3 position = q_vec3_add(ray.source, forward);
-
     return position;
 }
 
-#endif // __Q_RAY_TEMPLATE_H__
+#endif // QGLM_Q_RAY_TEMPLATE_H
 

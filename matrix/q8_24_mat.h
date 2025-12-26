@@ -1,6 +1,6 @@
 
-#ifndef __Q8_24_MAT_H__
-#define __Q8_24_MAT_H__
+#ifndef QGLM_Q8_24_MAT_H
+#define QGLM_Q8_24_MAT_H
 
 #include "../vector/q8_24_vec.h"
 #include "../quat/q8_24_quat.h"
@@ -29,5 +29,5 @@
 #include "q_mat_mul_template.h"
 #include "q_mat_cast_template.h"
 
-#endif // __Q8_24_MAT_H__
+#endif // QGLM_Q8_24_MAT_H
 

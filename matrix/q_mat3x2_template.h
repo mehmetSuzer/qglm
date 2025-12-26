@@ -1,6 +1,6 @@
 
-#ifndef __Q_MAT3X2_TEMPLATE_H__
-#define __Q_MAT3X2_TEMPLATE_H__
+#ifndef QGLM_Q_MAT3X2_TEMPLATE_H
+#define QGLM_Q_MAT3X2_TEMPLATE_H
 
 typedef union
 {
@@ -89,5 +89,5 @@ static inline Q_VEC3 q_mat3x2_mul_vec2(Q_MAT3X2 m, Q_VEC2 v)
     }};
 }
 
-#endif // __Q_MAT3X2_TEMPLATE_H__
+#endif // QGLM_Q_MAT3X2_TEMPLATE_H
 

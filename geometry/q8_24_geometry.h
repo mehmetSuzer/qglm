@@ -1,6 +1,6 @@
 
-#ifndef __Q8_24_GEOMETRY_H__
-#define __Q8_24_GEOMETRY_H__
+#ifndef QGLM_Q8_24_GEOMETRY_H
+#define QGLM_Q8_24_GEOMETRY_H
 
 #include "../vector/q8_24_vec.h"
 
@@ -14,5 +14,5 @@
 #include "q_sphere_template.h"
 #include "q_triangle_template.h"
 
-#endif // __Q8_24_GEOMETRY_H__
+#endif // QGLM_Q8_24_GEOMETRY_H
 

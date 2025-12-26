@@ -1,6 +1,6 @@
 
-#ifndef __Q_MAT2X4_TEMPLATE_H__
-#define __Q_MAT2X4_TEMPLATE_H__
+#ifndef QGLM_Q_MAT2X4_TEMPLATE_H
+#define QGLM_Q_MAT2X4_TEMPLATE_H
 
 typedef union
 {
@@ -79,5 +79,5 @@ static inline Q_VEC2 q_mat2x4_mul_vec4(Q_MAT2X4 m, Q_VEC4 v)
     }};
 }
 
-#endif // __Q_MAT2X4_TEMPLATE_H__
+#endif // QGLM_Q_MAT2X4_TEMPLATE_H
 

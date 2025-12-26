@@ -1,6 +1,6 @@
 
-#ifndef __Q_SPHERE_TEMPLATE_H__
-#define __Q_SPHERE_TEMPLATE_H__
+#ifndef QGLM_Q_SPHERE_TEMPLATE_H
+#define QGLM_Q_SPHERE_TEMPLATE_H
 
 typedef struct
 {
@@ -13,7 +13,6 @@ static inline Q_VEC3 q_sphere_normal_at(Q_SPHERE sphere, Q_VEC3 point_on_sphere)
     const Q_TYPE inv_radius = q_div(Q_ONE, sphere.radius);
     const Q_VEC3 centre_to_point = q_vec3_sub(point_on_sphere, sphere.centre);
     const Q_VEC3 normal = q_vec3_scale(centre_to_point, inv_radius);
-
     return normal;
 }
 
@@ -21,14 +20,13 @@ static inline Q_VEC3 q_sphere_normal_towards(Q_SPHERE sphere, Q_VEC3 point)
 {
     const Q_VEC3 centre_to_point = q_vec3_sub(point, sphere.centre);
     const Q_VEC3 normal = q_vec3_normalise(centre_to_point);
-
     return normal;
 }
 
 static inline bool q_sphere_intersects_ray(Q_SPHERE sphere, Q_RAY ray, Q_TYPE near, Q_TYPE far, Q_TYPE* dist_out)
 {
     const Q_VEC3 centre_to_source = q_vec3_sub(ray.source, sphere.centre);
-    const Q_TYPE dist2 = q_vec3_mag2(centre_to_source);
+    const Q_TYPE dist2 = q_vec3_length2(centre_to_source);
     const Q_TYPE dot = q_vec3_dot(centre_to_source, ray.direction);
     
     const Q_TYPE dot2 = q_mul(dot, dot);
@@ -50,5 +48,5 @@ static inline bool q_sphere_intersects_ray(Q_SPHERE sphere, Q_RAY ray, Q_TYPE ne
     return false;
 }
 
-#endif // __Q_SPHERE_TEMPLATE_H__
+#endif // QGLM_Q_SPHERE_TEMPLATE_H
 

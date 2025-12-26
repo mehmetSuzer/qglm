@@ -1,6 +1,6 @@
 
-#ifndef __Q16_16_QUAT_H__
-#define __Q16_16_QUAT_H__
+#ifndef QGLM_Q16_16_QUAT_H
+#define QGLM_Q16_16_QUAT_H
 
 #include "../vector/q16_16_vec.h"
 
@@ -8,5 +8,5 @@
 
 #include "q_quat_template.h"
 
-#endif // __Q16_16_QUAT_H__
+#endif // QGLM_Q16_16_QUAT_H
 

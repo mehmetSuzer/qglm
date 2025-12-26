@@ -1,6 +1,6 @@
 
-#ifndef __Q16_16_GLM_H__
-#define __Q16_16_GLM_H__
+#ifndef QGLM_Q16_16_GLM_H
+#define QGLM_Q16_16_GLM_H
 
 #include "fixed/q16_16.h"
 #include "vector/q16_16_vec.h"
@@ -9,5 +9,5 @@
 #include "transformation/q16_16_transformation.h"
 #include "geometry/q16_16_geometry.h"
 
-#endif // __Q16_16_GLM_H__
+#endif // QGLM_Q16_16_GLM_H
 

@@ -1,9 +1,11 @@
 
-#ifndef __Q_VIEWPORT_TEMPLATE_H__
-#define __Q_VIEWPORT_TEMPLATE_H__
+#ifndef QGLM_Q_VIEWPORT_TEMPLATE_H
+#define QGLM_Q_VIEWPORT_TEMPLATE_H
 
 // The origin of the window is the top left corner of the window.
 // The near plane is mapped to Q_ZERO, while the far plane is mapped to Q_ONE.
+// REQUIREMENT: width  > 0
+// REQUIREMENT: height > 0
 static inline Q_MAT4 q_viewport(int32_t x, int32_t y, uint32_t width, uint32_t height)
 {
     const int32_t hw = (width  - 1) / 2;
@@ -22,5 +24,5 @@ static inline Q_MAT4 q_viewport(int32_t x, int32_t y, uint32_t width, uint32_t h
     }};
 }
 
-#endif // __Q_VIEWPORT_TEMPLATE_H__
+#endif // QGLM_Q_VIEWPORT_TEMPLATE_H
 

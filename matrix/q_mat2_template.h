@@ -1,6 +1,6 @@
 
-#ifndef __Q_MAT2_TEMPLATE_H__
-#define __Q_MAT2_TEMPLATE_H__
+#ifndef QGLM_Q_MAT2_TEMPLATE_H
+#define QGLM_Q_MAT2_TEMPLATE_H
 
 typedef union
 {
@@ -95,7 +95,6 @@ static inline Q_VEC2 q_mat2_mul_vec2(Q_MAT2 m, Q_VEC2 v)
 static inline Q_TYPE q_mat2_det(Q_MAT2 m) 
 {
     const Q_TYPE det = q_sub(q_mul(m.xx, m.yy), q_mul(m.xy, m.yx));
-
     return det;
 }
 
@@ -123,5 +122,5 @@ static inline Q_VEC2 q_mat2_solve(Q_MAT2 m, Q_VEC2 v)
     }};
 }
 
-#endif // __Q_MAT2_TEMPLATE_H__
+#endif // QGLM_Q_MAT2_TEMPLATE_H
 

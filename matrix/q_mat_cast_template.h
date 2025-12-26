@@ -1,6 +1,6 @@
 
-#ifndef __Q_MAT_CAST_TEMPLATE_H__
-#define __Q_MAT_CAST_TEMPLATE_H__
+#ifndef QGLM_Q_MAT_CAST_TEMPLATE_H
+#define QGLM_Q_MAT_CAST_TEMPLATE_H
 
 static inline Q_MAT3 q_cast_mat2_to_mat3(Q_MAT2 m)
 {
@@ -42,11 +42,11 @@ static inline Q_MAT3 q_cast_mat4_to_mat3(Q_MAT4 m)
 static inline Q_MAT3 q_cast_quat_to_mat3(Q_QUAT q)
 {
     const Q_TYPE xx = q_mul_pow_2(q_mul(q.v.x, q.v.x), 1);
-    const Q_TYPE yy = q_mul_pow_2(q_mul(q.v.y, q.v.y), 1);
-    const Q_TYPE zz = q_mul_pow_2(q_mul(q.v.z, q.v.z), 1); 
     const Q_TYPE xy = q_mul_pow_2(q_mul(q.v.x, q.v.y), 1);
     const Q_TYPE xz = q_mul_pow_2(q_mul(q.v.x, q.v.z), 1);
+    const Q_TYPE yy = q_mul_pow_2(q_mul(q.v.y, q.v.y), 1);
     const Q_TYPE yz = q_mul_pow_2(q_mul(q.v.y, q.v.z), 1);
+    const Q_TYPE zz = q_mul_pow_2(q_mul(q.v.z, q.v.z), 1);
     const Q_TYPE wx = q_mul_pow_2(q_mul(q.w,   q.v.x), 1);
     const Q_TYPE wy = q_mul_pow_2(q_mul(q.w,   q.v.y), 1);
     const Q_TYPE wz = q_mul_pow_2(q_mul(q.w,   q.v.z), 1);
@@ -64,5 +64,5 @@ static inline Q_MAT4 q_cast_quat_to_mat4(Q_QUAT q)
     return q_cast_mat3_to_mat4(q_cast_quat_to_mat3(q));
 }
 
-#endif // __Q_MAT_CAST_TEMPLATE_H__
+#endif // QGLM_Q_MAT_CAST_TEMPLATE_H
 

@@ -1,6 +1,6 @@
 
-#ifndef __Q_TRIANGLE_TEMPLATE_H__
-#define __Q_TRIANGLE_TEMPLATE_H__
+#ifndef QGLM_Q_TRIANGLE_TEMPLATE_H
+#define QGLM_Q_TRIANGLE_TEMPLATE_H
 
 typedef struct
 {
@@ -15,7 +15,6 @@ static inline Q_VEC3 q_triangle_normal(Q_TRIANGLE triangle)
     const Q_VEC3 edge02 = q_vec3_sub(triangle.v2, triangle.v0);
     const Q_VEC3 cross = q_vec3_cross(edge01, edge02);
     const Q_VEC3 normal = q_vec3_normalise(cross);
-
     return normal;
 }
 
@@ -55,5 +54,5 @@ static inline bool q_triangle_intersects_ray(Q_TRIANGLE triangle, Q_RAY ray, Q_T
     return false;
 }
 
-#endif // __Q_TRIANGLE_TEMPLATE_H__
+#endif // QGLM_Q_TRIANGLE_TEMPLATE_H
 

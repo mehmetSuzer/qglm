@@ -1,16 +1,6 @@
 
-#ifndef __Q_MAT_MUL_TEMPLATE_H__
-#define __Q_MAT_MUL_TEMPLATE_H__
-
-#include "q_mat2_template.h"
-#include "q_mat2x3_template.h"
-#include "q_mat2x4_template.h"
-#include "q_mat3x2_template.h"
-#include "q_mat3_template.h"
-#include "q_mat3x4_template.h"
-#include "q_mat4x2_template.h"
-#include "q_mat4x3_template.h"
-#include "q_mat4_template.h"
+#ifndef QGLM_Q_MAT_MUL_TEMPLATE_H
+#define QGLM_Q_MAT_MUL_TEMPLATE_H
 
 // -------------------------------- Q_MAT2 -------------------------------- //
 
@@ -490,5 +480,5 @@ static inline Q_MAT4 q_mat4_mul_mat4(Q_MAT4 m1, Q_MAT4 m2)
     }};
 }
 
-#endif // __Q_MAT_MUL_TEMPLATE_H__
+#endif // QGLM_Q_MAT_MUL_TEMPLATE_H
 

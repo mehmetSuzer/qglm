@@ -1,6 +1,6 @@
 
-#ifndef __Q_MAT3_TEMPLATE_H__
-#define __Q_MAT3_TEMPLATE_H__
+#ifndef QGLM_Q_MAT3_TEMPLATE_H
+#define QGLM_Q_MAT3_TEMPLATE_H
 
 typedef union
 {
@@ -35,9 +35,9 @@ typedef union
 static inline Q_MAT3 q_mat3_diagonal(Q_VEC3 v) 
 {
     return (Q_MAT3){{
-         v.x, 0.0f, 0.0f,
-        0.0f,  v.y, 0.0f,
-        0.0f, 0.0f,  v.z,
+           v.x, Q_ZERO, Q_ZERO,
+        Q_ZERO,    v.y, Q_ZERO,
+        Q_ZERO, Q_ZERO,    v.z,
     }};
 }
 
@@ -111,7 +111,6 @@ static inline Q_TYPE q_mat3_det(Q_MAT3 m)
     const Q_TYPE z = q_mul(m.xz, q_sub(q_mul(m.yx, m.zy), q_mul(m.yy, m.zx)));
            
     const Q_TYPE det = q_add(q_sub(x, y), z);
-
     return det;
 }
 
@@ -159,5 +158,5 @@ static inline Q_VEC3 q_mat3_solve(Q_MAT3 m, Q_VEC3 v)
     }};
 }
 
-#endif // __Q_MAT3_TEMPLATE_H__
+#endif // QGLM_Q_MAT3_TEMPLATE_H
 

@@ -1,6 +1,6 @@
 
-#ifndef __Q24_8_TRANSFORMATION_H__
-#define __Q24_8_TRANSFORMATION_H__
+#ifndef QGLM_Q24_8_TRANSFORMATION_H
+#define QGLM_Q24_8_TRANSFORMATION_H
 
 #include "../matrix/q24_8_mat.h"
 
@@ -12,5 +12,5 @@
 #include "q_transform_2d_template.h"
 #include "q_transform_3d_template.h"
 
-#endif // __Q24_8_TRANSFORMATION_H__
+#endif // QGLM_Q24_8_TRANSFORMATION_H
 

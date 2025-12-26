@@ -1,6 +1,6 @@
 
-#ifndef __Q16_16_H__
-#define __Q16_16_H__
+#ifndef QGLM_Q16_16_H
+#define QGLM_Q16_16_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -54,5 +54,5 @@ typedef int32_t q16_16_t;
 
 #include "q_template.h"
 
-#endif // __Q16_16_H__
+#endif // QGLM_Q16_16_H
 

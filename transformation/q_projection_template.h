@@ -1,6 +1,6 @@
 
-#ifndef __Q_PROJECTION_TEMPLATE_H__
-#define __Q_PROJECTION_TEMPLATE_H__
+#ifndef QGLM_Q_PROJECTION_TEMPLATE_H
+#define QGLM_Q_PROJECTION_TEMPLATE_H
 
 static inline Q_MAT4 q_orthographic(Q_TYPE width, Q_TYPE height, Q_TYPE near, Q_TYPE far)
 {
@@ -38,5 +38,5 @@ static inline Q_MAT4 q_perspective(Q_TYPE fovw, Q_TYPE aspect_ratio, Q_TYPE near
     }};
 }
 
-#endif // __Q_PROJECTION_TEMPLATE_H__
+#endif // QGLM_Q_PROJECTION_TEMPLATE_H
 

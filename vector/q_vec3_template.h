@@ -1,6 +1,6 @@
 
-#ifndef __Q_VEC3_TEMPLATE_H__
-#define __Q_VEC3_TEMPLATE_H__
+#ifndef QGLM_Q_VEC3_TEMPLATE_H
+#define QGLM_Q_VEC3_TEMPLATE_H
 
 typedef union 
 {
@@ -34,6 +34,8 @@ typedef union
 #define Q_VEC3_DOWN     ((Q_VEC3){{ Q_ZERO, Q_M_ONE,  Q_ZERO}})
 #define Q_VEC3_BACKWARD ((Q_VEC3){{ Q_ZERO,  Q_ZERO,   Q_ONE}})
 #define Q_VEC3_FORWARD  ((Q_VEC3){{ Q_ZERO,  Q_ZERO, Q_M_ONE}})
+
+// -------------------------------- ARITHMETIC -------------------------------- //
 
 static inline Q_VEC3 q_vec3_negate(Q_VEC3 v) 
 {
@@ -89,6 +91,8 @@ static inline Q_VEC3 q_vec3_scale(Q_VEC3 v, Q_TYPE q)
     }};
 }
 
+// -------------------------------- ACCELERATED ARITHMETIC -------------------------------- //
+
 static inline Q_VEC3 q_vec3_upscale_pow_2(Q_VEC3 v, uint32_t power)
 {
     return (Q_VEC3){{
@@ -107,27 +111,59 @@ static inline Q_VEC3 q_vec3_downscale_pow_2(Q_VEC3 v, uint32_t power)
     }};
 }
 
+static inline Q_VEC3 q_vec3_upscale_int(Q_VEC3 v, int32_t n)
+{
+    return (Q_VEC3){{
+        q_mul_int(v.x, n),
+        q_mul_int(v.y, n),
+        q_mul_int(v.z, n),
+    }};
+}
+
+static inline Q_VEC3 q_vec3_downscale_int(Q_VEC3 v, int32_t n)
+{
+    return (Q_VEC3){{
+        q_div_int(v.x, n),
+        q_div_int(v.y, n),
+        q_div_int(v.z, n),
+    }};
+}
+
+// -------------------------------- UTILITY -------------------------------- //
+
 static inline Q_TYPE q_vec3_dot(Q_VEC3 v1, Q_VEC3 v2)
 {
     const Q_TYPE x2 = q_mul(v1.x, v2.x);
     const Q_TYPE y2 = q_mul(v1.y, v2.y);
     const Q_TYPE z2 = q_mul(v1.z, v2.z);
     const Q_TYPE dot = q_add(q_add(x2, y2), z2);
-
     return dot;
 }
 
-static inline Q_TYPE q_vec3_mag2(Q_VEC3 v)
+static inline Q_TYPE q_vec3_length2(Q_VEC3 v)
 {
     return q_vec3_dot(v, v);
 }
 
-static inline Q_TYPE q_vec3_mag(Q_VEC3 v) 
+static inline Q_TYPE q_vec3_length(Q_VEC3 v) 
 {
-    const Q_TYPE mag2 = q_vec3_mag2(v);
-    const Q_TYPE mag = q_sqrt(mag2);
+    const Q_TYPE length2 = q_vec3_length2(v);
+    const Q_TYPE length = q_sqrt(length2);
+    return length;
+}
 
-    return mag;
+static inline Q_TYPE q_vec3_distance2(Q_VEC3 v1, Q_VEC3 v2)
+{
+    const Q_VEC3 diff = q_vec3_sub(v1, v2);
+    const Q_TYPE distance2 = q_vec3_length2(diff);
+    return distance2;
+}
+
+static inline Q_TYPE q_vec3_distance(Q_VEC3 v1, Q_VEC3 v2)
+{
+    const Q_TYPE distance2 = q_vec3_distance2(v1, v2);
+    const Q_TYPE distance = q_sqrt(distance2);
+    return distance;
 }
 
 static inline Q_VEC3 q_vec3_interp(Q_VEC3 v1, Q_VEC3 v2, Q_TYPE alpha) 
@@ -141,9 +177,8 @@ static inline Q_VEC3 q_vec3_interp(Q_VEC3 v1, Q_VEC3 v2, Q_TYPE alpha)
 
 static inline Q_VEC3 q_vec3_normalise(Q_VEC3 v) 
 {
-    const Q_TYPE inv_mag = q_div(Q_ONE, q_vec3_mag(v));
-    const Q_VEC3 normalised = q_vec3_scale(v, inv_mag);
-
+    const Q_TYPE inv_length = q_div(Q_ONE, q_vec3_length(v));
+    const Q_VEC3 normalised = q_vec3_scale(v, inv_length);
     return normalised;
 }
 
@@ -152,7 +187,6 @@ static inline Q_VEC3 q_vec3_cross(Q_VEC3 v1, Q_VEC3 v2)
     const Q_TYPE x = q_sub(q_mul(v1.y, v2.z), q_mul(v1.z, v2.y));
     const Q_TYPE y = q_sub(q_mul(v1.z, v2.x), q_mul(v1.x, v2.z));
     const Q_TYPE z = q_sub(q_mul(v1.x, v2.y), q_mul(v1.y, v2.x));
-
     return (Q_VEC3){{x, y, z}};
 }
 
@@ -163,7 +197,6 @@ static inline Q_VEC3 q_vec3_reflect(Q_VEC3 u, Q_VEC3 n)
     const Q_TYPE scale = q_mul_pow_2(q_vec3_dot(n, u), 1);
     const Q_VEC3 scaled_n = q_vec3_scale(n, scale);
     const Q_VEC3 reflect = q_vec3_sub(u, scaled_n);
-    
     return reflect;
 }
 
@@ -172,9 +205,30 @@ static inline Q_VEC3 q_vec3_bisector(Q_VEC3 u1, Q_VEC3 u2)
 {
     const Q_VEC3 sum = q_vec3_add(u1, u2);
     const Q_VEC3 bisector = q_vec3_normalise(sum);
-
     return bisector;
 }
 
-#endif // __Q_VEC3_TEMPLATE_H__
+// -------------------------------- COMPARISON -------------------------------- //
+
+static inline bool q_vec3_epsilon_is_normalised(Q_VEC3 v, Q_TYPE epsilon)
+{
+    const Q_TYPE length2 = q_vec3_length2(v);
+    return q_epsilon_eq(length2, Q_ONE, epsilon);
+}
+
+static inline bool q_vec3_epsilon_eq(Q_VEC3 v1, Q_VEC3 v2, Q_TYPE epsilon)
+{
+    return q_epsilon_eq(v1.x, v2.x, epsilon) &&
+           q_epsilon_eq(v1.y, v2.y, epsilon) &&
+           q_epsilon_eq(v1.z, v2.z, epsilon);
+}
+
+static inline bool q_vec3_epsilon_ne(Q_VEC3 v1, Q_VEC3 v2, Q_TYPE epsilon)
+{
+    return q_epsilon_ne(v1.x, v2.x, epsilon) ||
+           q_epsilon_ne(v1.y, v2.y, epsilon) ||
+           q_epsilon_ne(v1.z, v2.z, epsilon);
+}
+
+#endif // QGLM_Q_VEC3_TEMPLATE_H
 

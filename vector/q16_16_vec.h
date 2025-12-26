@@ -1,6 +1,6 @@
 
-#ifndef __Q16_16_VEC_H__
-#define __Q16_16_VEC_H__
+#ifndef QGLM_Q16_16_VEC_H
+#define QGLM_Q16_16_VEC_H
 
 #include "../fixed/q16_16.h"
 
@@ -12,5 +12,5 @@
 #include "q_vec3_template.h"
 #include "q_vec4_template.h"
 
-#endif // __Q16_16_VEC_H__
+#endif // QGLM_Q16_16_VEC_H
 

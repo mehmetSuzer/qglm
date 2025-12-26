@@ -1,6 +1,6 @@
 
-#ifndef __Q8_24_VEC_H__
-#define __Q8_24_VEC_H__
+#ifndef QGLM_Q8_24_VEC_H
+#define QGLM_Q8_24_VEC_H
 
 #include "../fixed/q8_24.h"
 
@@ -12,5 +12,5 @@
 #include "q_vec3_template.h"
 #include "q_vec4_template.h"
 
-#endif // __Q8_24_VEC_H__
+#endif // QGLM_Q8_24_VEC_H
 

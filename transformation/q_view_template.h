@@ -1,6 +1,6 @@
 
-#ifndef __Q_VIEW_TEMPLATE_H__
-#define __Q_VIEW_TEMPLATE_H__
+#ifndef QGLM_Q_VIEW_TEMPLATE_H
+#define QGLM_Q_VIEW_TEMPLATE_H
 
 // REQUIREMENT: backward and up must be unit vectors that are perpendicular to each other.
 static inline Q_MAT4 q_view(Q_VEC3 eye, Q_VEC3 backward, Q_VEC3 up)
@@ -19,5 +19,5 @@ static inline Q_MAT4 q_view(Q_VEC3 eye, Q_VEC3 backward, Q_VEC3 up)
     }};
 }
 
-#endif // __Q_VIEW_TEMPLATE_H__
+#endif // QGLM_Q_VIEW_TEMPLATE_H
 

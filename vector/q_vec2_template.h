@@ -196,6 +196,14 @@ static inline Q_VEC2 q_vec2_bisector(Q_VEC2 u1, Q_VEC2 u2)
     return bisector;
 }
 
+// REQUIREMENT: angle must be in radians.
+static inline Q_VEC2 q_vec2_from_polar(Q_TYPE radius, Q_TYPE angle)
+{
+    const Q_TYPE x = q_mul(radius, q_cos(angle));
+    const Q_TYPE y = q_mul(radius, q_sin(angle));
+    return (Q_VEC2){{x, y}};
+}
+
 // -------------------------------- COMPARISON -------------------------------- //
 
 static inline bool q_vec2_epsilon_is_normalised(Q_VEC2 v, Q_TYPE epsilon)

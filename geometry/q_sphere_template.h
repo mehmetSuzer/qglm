@@ -23,6 +23,13 @@ static inline Q_VEC3 q_sphere_normal_towards(Q_SPHERE sphere, Q_VEC3 point)
     return normal;
 }
 
+static inline bool q_sphere_contains_point(Q_SPHERE sphere, Q_VEC3 point)
+{
+    const Q_TYPE dist2 = q_vec3_distance2(sphere.centre, point);
+    const Q_TYPE radius2 = q_mul(sphere.radius, sphere.radius);
+    return (dist2 < radius2);
+}
+
 static inline bool q_sphere_intersects_ray(Q_SPHERE sphere, Q_RAY ray, Q_TYPE near, Q_TYPE far, Q_TYPE* dist_out)
 {
     const Q_VEC3 centre_to_source = q_vec3_sub(ray.source, sphere.centre);
@@ -37,11 +44,11 @@ static inline bool q_sphere_intersects_ray(Q_SPHERE sphere, Q_RAY ray, Q_TYPE ne
         return false;
 
     const Q_TYPE half_sqrt_discriminant = q_sqrt(quarter_discriminant);
-    const Q_TYPE low_distance = q_negate(q_add(dot, half_sqrt_discriminant));
+    const Q_TYPE low_dist = q_negate(q_add(dot, half_sqrt_discriminant));
 
-    if (near < low_distance && low_distance < far)
+    if (near < low_dist && low_dist < far)
     {
-        *dist_out = low_distance;
+        *dist_out = low_dist;
         return true;
     }
 

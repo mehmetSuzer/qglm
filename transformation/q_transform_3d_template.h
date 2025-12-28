@@ -30,8 +30,9 @@ static inline void q_translate_3d(Q_MAT4* m, Q_VEC3 v)
 // REQUIREMENT: axis must be a unit vector.
 static inline Q_MAT4 q_rotate_mat4(Q_TYPE angle, Q_VEC3 axis)
 {
-    const Q_TYPE s = q_sin(angle);
-    const Q_TYPE c = q_cos(angle);
+    Q_TYPE s;
+    Q_TYPE c;
+    q_sincos(angle, &s, &c);
     const Q_TYPE t = q_sub(Q_ONE, c);
 
     const Q_TYPE xs = q_mul(axis.x, s);
@@ -58,8 +59,9 @@ static inline Q_MAT4 q_rotate_mat4(Q_TYPE angle, Q_VEC3 axis)
 // REQUIREMENT: axis must be a unit vector.
 static inline void q_rotate_3d_angle_axis(Q_MAT4* m, Q_TYPE angle, Q_VEC3 axis)
 {
-    const Q_TYPE s = q_sin(angle);
-    const Q_TYPE c = q_cos(angle);
+    Q_TYPE s;
+    Q_TYPE c;
+    q_sincos(angle, &s, &c);
     const Q_TYPE t = q_sub(Q_ONE, c);
 
     const Q_TYPE xs = q_mul(axis.x, s);

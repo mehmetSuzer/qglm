@@ -210,10 +210,13 @@ static inline Q_VEC3 q_vec3_bisector(Q_VEC3 u1, Q_VEC3 u2)
 
 static inline Q_VEC3 q_vec3_spherical(Q_TYPE radius, Q_TYPE polar, Q_TYPE azimuth)
 {
-    const Q_TYPE sp = q_sin(polar);
-    const Q_TYPE cp = q_cos(polar);
-    const Q_TYPE sa = q_sin(azimuth);
-    const Q_TYPE ca = q_cos(azimuth);
+    Q_TYPE sp;
+    Q_TYPE cp;
+    q_sincos(polar, &sp, &cp);
+
+    Q_TYPE sa;
+    Q_TYPE ca;
+    q_sincos(azimuth, &sa, &ca);
 
     const Q_TYPE x = q_mul(q_mul(radius, sp), ca);
     const Q_TYPE y = q_mul(q_mul(radius, sp), sa);
@@ -223,8 +226,12 @@ static inline Q_VEC3 q_vec3_spherical(Q_TYPE radius, Q_TYPE polar, Q_TYPE azimut
 
 static inline Q_VEC3 q_vec3_cylindrical(Q_TYPE radius, Q_TYPE azimuth, Q_TYPE height)
 {
-    const Q_TYPE x = q_mul(radius, q_cos(azimuth));
-    const Q_TYPE y = q_mul(radius, q_sin(azimuth));
+    Q_TYPE sa;
+    Q_TYPE ca;
+    q_sincos(azimuth, &sa, &ca);    
+    
+    const Q_TYPE x = q_mul(radius, ca);
+    const Q_TYPE y = q_mul(radius, sa);
     const Q_TYPE z = height;
     return (Q_VEC3){{x, y, z}};
 }

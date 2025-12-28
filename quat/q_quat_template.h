@@ -13,10 +13,13 @@ typedef struct
 // REQUIREMENT: angles must be in radians.
 static inline Q_QUAT q_quat_euler_angles(Q_VEC3 angles)
 {
-    const Q_VEC3 half_angles = q_vec3_downscale_pow_2(angles, 1);
-    
-    const Q_VEC3 c = {{q_cos(half_angles.x), q_cos(half_angles.y), q_cos(half_angles.z)}};
-    const Q_VEC3 s = {{q_sin(half_angles.x), q_sin(half_angles.y), q_sin(half_angles.z)}};
+    const Q_VEC3 half = q_vec3_downscale_pow_2(angles, 1);
+
+    Q_VEC3 s;
+    Q_VEC3 c;
+    q_sincos(half.x, &s.x, &c.x);
+    q_sincos(half.y, &s.y, &c.y);
+    q_sincos(half.z, &s.z, &c.z);
 
     const Q_TYPE x = q_sub(q_mul(q_mul(s.x, c.y), c.z), q_mul(q_mul(c.x, s.y), s.z));
     const Q_TYPE y = q_add(q_mul(q_mul(c.x, s.y), c.z), q_mul(q_mul(s.x, c.y), s.z));
@@ -31,9 +34,12 @@ static inline Q_QUAT q_quat_euler_angles(Q_VEC3 angles)
 // REQUIREMENT: axis must be a unit vector.
 static inline Q_QUAT q_quat_angle_axis(Q_TYPE angle, Q_VEC3 axis)
 {
-    const Q_TYPE half_angle = q_div_pow_2(angle, 1);
-    const Q_TYPE c = q_cos(half_angle);
-    const Q_TYPE s = q_sin(half_angle);
+    const Q_TYPE half = q_div_pow_2(angle, 1);
+
+    Q_TYPE s;
+    Q_TYPE c;
+    q_sincos(half, &s, &c);
+    
     return (Q_QUAT){q_vec3_scale(axis, s), c};
 }
 

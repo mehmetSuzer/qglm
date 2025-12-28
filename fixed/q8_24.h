@@ -51,7 +51,7 @@ typedef int32_t q8_24_t;
 #define Q_1_2SQRT3   ((Q_TYPE)4843165)                 // 0.5 / sqrt(3.0)
 #define Q_TO_RADIAN  ((Q_TYPE)292818)                  // pi / 180.0
 #define Q_TO_DEGREE  ((Q_TYPE)961263669)               // 180.0 / pi
-#define Q_EPSILON    ((Q_TYPE)402653)                  // epsilon
+#define Q_EPSILON    ((Q_TYPE)32)                      // epsilon
 
 #include "q_template.h"
 

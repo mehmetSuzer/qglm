@@ -26,9 +26,10 @@ static inline void q_translate_2d(Q_MAT3* m, Q_VEC2 v)
 // REQUIREMENT: angle must be in radians.
 static inline Q_MAT3 q_rotate_mat3(Q_TYPE angle)
 {
-    const Q_TYPE p_s = q_sin(angle);
+    Q_TYPE p_s;
+    Q_TYPE p_c;
+    q_sincos(angle, &p_s, &p_c);
     const Q_TYPE n_s = q_negate(p_s);
-    const Q_TYPE p_c = q_cos(angle);
 
     return (Q_MAT3){{
            p_c,    n_s, Q_ZERO,
@@ -41,9 +42,10 @@ static inline Q_MAT3 q_rotate_mat3(Q_TYPE angle)
 // REQUIREMENT: angle must be in radians.
 static inline void q_rotate_2d(Q_MAT3* m, Q_TYPE angle)
 {
-    const Q_TYPE p_s = q_sin(angle);
+    Q_TYPE p_s;
+    Q_TYPE p_c;
+    q_sincos(angle, &p_s, &p_c);
     const Q_TYPE n_s = q_negate(p_s);
-    const Q_TYPE p_c = q_cos(angle);
 
     const Q_TYPE xx = q_add(q_mul(m->xx, p_c), q_mul(m->xy, p_s)); 
     const Q_TYPE yx = q_add(q_mul(m->yx, p_c), q_mul(m->yy, p_s)); 

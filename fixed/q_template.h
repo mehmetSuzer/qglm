@@ -2,72 +2,29 @@
 #ifndef QGLM_Q_TEMPLATE_H
 #define QGLM_Q_TEMPLATE_H
 
-// TODO: implement safe versions of these functions
-
 // -------------------------------- CONVERSION -------------------------------- //
 
-#define Q_FROM_INT(x)       ((Q_TYPE)((x) << Q_FRAC_BITS))
+#ifdef QGLM_SAFE_MATH
+    #define Q_FROM_INT(x)       (((x) < (INT32_MIN >> Q_FRAC_BITS)) ? Q_MIN : \
+                                 ((x) > (INT32_MAX >> Q_FRAC_BITS)) ? Q_MAX : \
+                                 (Q_TYPE)((x) * (1 << Q_FRAC_BITS)))
+
+    #define Q_FROM_FLOAT(x)     (((x) < (float)INT32_MIN / (float)(1 << Q_FRAC_BITS)) ? Q_MIN : \
+                                 ((x) > (float)INT32_MAX / (float)(1 << Q_FRAC_BITS)) ? Q_MAX : \
+                                 (Q_TYPE)((x) * (float)(1 << Q_FRAC_BITS)))
+
+    #define Q_FROM_DOUBLE(x)    (((x) < (double)INT32_MIN / (double)(1 << Q_FRAC_BITS)) ? Q_MIN : \
+                                 ((x) > (double)INT32_MAX / (double)(1 << Q_FRAC_BITS)) ? Q_MAX : \
+                                 (Q_TYPE)((x) * (double)(1 << Q_FRAC_BITS)))
+#else
+    #define Q_FROM_INT(x)       ((Q_TYPE)((x) * (1 << Q_FRAC_BITS)))
+    #define Q_FROM_FLOAT(x)     ((Q_TYPE)((x) * (float)(1 << Q_FRAC_BITS)))
+    #define Q_FROM_DOUBLE(x)    ((Q_TYPE)((x) * (double)(1 << Q_FRAC_BITS)))
+#endif
+
 #define Q_TO_INT(q)         ((int32_t)((q) >> Q_FRAC_BITS))
-#define Q_FROM_FLOAT(x)     ((Q_TYPE)((x) * (float)(1 << Q_FRAC_BITS)))
 #define Q_TO_FLOAT(q)       ((float)(q) / (float)(1 << Q_FRAC_BITS))
-#define Q_FROM_DOUBLE(x)    ((Q_TYPE)((x) * (double)(1 << Q_FRAC_BITS)))
 #define Q_TO_DOUBLE(q)      ((double)(q) / (double)(1 << Q_FRAC_BITS))
-
-// -------------------------------- ARITHMETIC -------------------------------- //
-
-static inline Q_TYPE q_negate(Q_TYPE q)
-{
-    return -q;
-}
-
-static inline Q_TYPE q_add(Q_TYPE q1, Q_TYPE q2)
-{
-    return q1 + q2;
-}
-
-static inline Q_TYPE q_sub(Q_TYPE q1, Q_TYPE q2)
-{
-    return q1 - q2;
-}
-
-static inline Q_TYPE q_mul(Q_TYPE q1, Q_TYPE q2)
-{
-    const Q_WIDE wide = (Q_WIDE)q1 * (Q_WIDE)q2;
-    return (Q_TYPE)(wide >> Q_FRAC_BITS);
-}
-
-static inline Q_TYPE q_div(Q_TYPE q1, Q_TYPE q2)
-{
-    const Q_WIDE wide = ((Q_WIDE)q1) << Q_FRAC_BITS;
-    return (Q_TYPE)(wide / q2);
-}
-
-static inline Q_TYPE q_mod(Q_TYPE q1, Q_TYPE q2)
-{
-    return q1 % q2;
-}
-
-// -------------------------------- ACCELERATED ARITHMETIC -------------------------------- //
-
-static inline Q_TYPE q_mul_pow_2(Q_TYPE q, uint32_t power)
-{
-    return q << power;
-}
-
-static inline Q_TYPE q_div_pow_2(Q_TYPE q, uint32_t power)
-{
-    return q >> power;
-}
-
-static inline Q_TYPE q_mul_int(Q_TYPE q, int32_t n)
-{
-    return q * n;
-}
-
-static inline Q_TYPE q_div_int(Q_TYPE q, int32_t n)
-{
-    return q / n;
-}
 
 // -------------------------------- COMPARISON -------------------------------- //
 
@@ -101,11 +58,115 @@ static inline bool q_ne(Q_TYPE q1, Q_TYPE q2)
     return q1 != q2;
 }
 
+
+// -------------------------------- ARITHMETIC -------------------------------- //
+
+static inline Q_TYPE q_negate(Q_TYPE q)
+{
+#ifdef QGLM_SAFE_MATH
+    if (q_eq(q, Q_MIN)) return Q_MAX; 
+#endif
+    return -q;
+}
+
+static inline Q_TYPE q_add(Q_TYPE q1, Q_TYPE q2)
+{
+#ifdef QGLM_SAFE_MATH
+    const Q_WIDE r = (Q_WIDE)q1 + (Q_WIDE)q2;
+    if (r < Q_MIN) return Q_MIN;
+    if (r > Q_MAX) return Q_MAX;
+    return (Q_TYPE)r;
+#else
+    return q1 + q2;
+#endif
+}
+
+static inline Q_TYPE q_sub(Q_TYPE q1, Q_TYPE q2)
+{
+#ifdef QGLM_SAFE_MATH
+    const Q_WIDE r = (Q_WIDE)q1 - (Q_WIDE)q2;
+    if (r < Q_MIN) return Q_MIN;
+    if (r > Q_MAX) return Q_MAX;
+    return (Q_TYPE)r;
+#else
+    return q1 - q2;
+#endif
+}
+
+static inline Q_TYPE q_mul(Q_TYPE q1, Q_TYPE q2)
+{
+    const Q_WIDE r = ((Q_WIDE)q1 * (Q_WIDE)q2) >> Q_FRAC_BITS;
+#ifdef QGLM_SAFE_MATH
+    if (r < Q_MIN) return Q_MIN;
+    if (r > Q_MAX) return Q_MAX;
+#endif
+    return (Q_TYPE)r;
+}
+
+static inline Q_TYPE q_div(Q_TYPE q1, Q_TYPE q2)
+{
+#ifdef QGLM_SAFE_MATH
+    if (q_eq(q2, Q_ZERO)) 
+        return (q_lt(q1, Q_ZERO)) ? Q_MIN : Q_MAX;
+#endif
+    const Q_WIDE r = ((Q_WIDE)q1 << Q_FRAC_BITS) / q2;
+#ifdef QGLM_SAFE_MATH
+    if (r < Q_MIN) return Q_MIN;
+    if (r > Q_MAX) return Q_MAX;
+#endif
+    return (Q_TYPE)r;
+}
+
+static inline Q_TYPE q_mod(Q_TYPE q1, Q_TYPE q2)
+{
+#ifdef QGLM_SAFE_MATH
+    if (q_eq(q2, Q_ZERO)) return Q_ZERO;
+#endif
+    return q1 % q2;
+}
+
+// -------------------------------- ACCELERATED ARITHMETIC -------------------------------- //
+
+static inline Q_TYPE q_mul_pow_2(Q_TYPE q, uint32_t power)
+{
+#ifdef QGLM_SAFE_MATH
+    if (q_gt(q, (Q_MAX >> power))) return Q_MAX;
+    if (q_lt(q, (Q_MIN >> power))) return Q_MIN;
+#endif
+    return q << power;
+}
+
+static inline Q_TYPE q_div_pow_2(Q_TYPE q, uint32_t power)
+{
+    return q >> power;
+}
+
+static inline Q_TYPE q_mul_int(Q_TYPE q, int32_t n)
+{
+#ifdef QGLM_SAFE_MATH
+    const Q_WIDE r = (Q_WIDE)q * n;
+    if (r < Q_MIN) return Q_MIN;
+    if (r > Q_MAX) return Q_MAX;
+    return (Q_TYPE)r;
+#else
+    return q * n;
+#endif
+}
+
+static inline Q_TYPE q_div_int(Q_TYPE q, int32_t n)
+{
+#ifdef QGLM_SAFE_MATH
+    if (n == 0)
+        return (q_lt(q, Q_ZERO)) ? Q_MIN : Q_MAX;
+#endif
+    return q / n;
+}
+
 // -------------------------------- UTILITY -------------------------------- //
 
 static inline Q_TYPE q_sign(Q_TYPE q)
 {
-    return q_gt(q, Q_ZERO) - q_lt(q, Q_ZERO);
+    return (q_gt(q, Q_ZERO) - q_lt(q, Q_ZERO)) * (1 << Q_FRAC_BITS);
 }
 
 static inline Q_TYPE q_smaller(Q_TYPE q1, Q_TYPE q2)
@@ -120,7 +181,7 @@ static inline Q_TYPE q_greater(Q_TYPE q1, Q_TYPE q2)
 
 static inline Q_TYPE q_abs(Q_TYPE q)
 {
-    return q_ge(q, Q_ZERO) ? q : -q;
+    return q_ge(q, Q_ZERO) ? q : q_negate(q);
 }
 
 static inline Q_TYPE q_interp(Q_TYPE q1, Q_TYPE q2, Q_TYPE alpha)
@@ -197,14 +258,13 @@ static inline Q_TYPE q_to_degree(Q_TYPE radian)
     return q_mul(radian, Q_TO_DEGREE);
 }
 
+// Wraps the angle to [-pi, pi)
 static inline Q_TYPE q_wrap_pi(Q_TYPE q)
 {
-    // q = fmod(q + pi, 2*pi) - pi;
     q = q_add(q, Q_PI);
     q = q_mod(q, Q_2PI);
     q = q_sub(q, Q_PI);
-
-    return q; // q in [-pi, pi)
+    return q;
 }
 
 // TODO: Check the CORDIC implementations of sin, cos, tan, atan, vector magnitude, and vector rotations
@@ -246,12 +306,10 @@ static inline Q_TYPE q_tan(Q_TYPE q)
 {
     const Q_TYPE s = q_sin(q);
     const Q_TYPE c = q_cos(q);
-
 #ifdef QGLM_SAFE_MATH
     if (q_eq(c, Q_ZERO))
-        return q_ge(s, Q_ZERO) ? Q_MAX : Q_MIN;
+        return q_lt(s, Q_ZERO) ? Q_MIN : Q_MAX;
 #endif
-
     return q_div(s, c);
 }
 
@@ -260,18 +318,14 @@ static inline Q_TYPE q_cot(Q_TYPE q)
 {
     const Q_TYPE s = q_sin(q);
     const Q_TYPE c = q_cos(q);
-
 #ifdef QGLM_SAFE_MATH
     if (q_eq(s, Q_ZERO))
-        return q_ge(c, Q_ZERO) ? Q_MAX : Q_MIN;
+        return q_lt(c, Q_ZERO) ? Q_MIN : Q_MAX;
 #endif
-
     return q_div(c, s);
 }
 
 // -------------------------------- EPSILON -------------------------------- //
-
-#define Q_EPSILON  ((Q_TYPE)1) // The smallest fraction that be represented
 
 static inline bool q_epsilon_eq(Q_TYPE q1, Q_TYPE q2, Q_TYPE epsilon)
 {

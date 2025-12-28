@@ -31,14 +31,14 @@ typedef int32_t q24_8_t;
 #define Q_THIRDPI    ((Q_TYPE)268)                     // pi / 3.0
 #define Q_FOURTHPI   ((Q_TYPE)201)                     // pi / 4.0
 #define Q_1_PI       ((Q_TYPE)81)                      // 1.0 / pi
-#define Q_2_PI       ((Q_TYPE)162)                     // 2.0 / pi
+#define Q_2_PI       ((Q_TYPE)163)                     // 2.0 / pi
 #define Q_3_PI       ((Q_TYPE)244)                     // 3.0 / pi
-#define Q_4_PI       ((Q_TYPE)325)                     // 4.0 / pi
-#define Q_SQRTPI     ((Q_TYPE)453)                     // sqrt(pi)
+#define Q_4_PI       ((Q_TYPE)326)                     // 4.0 / pi
+#define Q_SQRTPI     ((Q_TYPE)454)                     // sqrt(pi)
 #define Q_1_SQRTPI   ((Q_TYPE)144)                     // 1.0 / sqrt(pi)
-#define Q_2_SQRTPI   ((Q_TYPE)288)                     // 2.0 / sqrt(pi)
+#define Q_2_SQRTPI   ((Q_TYPE)289)                     // 2.0 / sqrt(pi)
 #define Q_3_SQRTPI   ((Q_TYPE)433)                     // 3.0 / sqrt(pi)
-#define Q_E          ((Q_TYPE)695)                     // e
+#define Q_E          ((Q_TYPE)696)                     // e
 #define Q_LOG2E      ((Q_TYPE)369)                     // log2(e)
 #define Q_LOG10E     ((Q_TYPE)111)                     // log10(e)
 #define Q_LN2        ((Q_TYPE)177)                     // ln(2.0)
@@ -46,11 +46,12 @@ typedef int32_t q24_8_t;
 #define Q_SQRT2      ((Q_TYPE)362)                     // sqrt(2.0)
 #define Q_SQRT3      ((Q_TYPE)443)                     // sqrt(3.0)
 #define Q_1_SQRT2    ((Q_TYPE)181)                     // 1.0 / sqrt(2.0)
-#define Q_1_SQRT3    ((Q_TYPE)147)                     // 1.0 / sqrt(3.0)
-#define Q_HALFSQRT3  ((Q_TYPE)221)                     // 0.5 * sqrt(3.0)
-#define Q_1_2SQRT3   ((Q_TYPE)73)                      // 0.5 / sqrt(3.0)
+#define Q_1_SQRT3    ((Q_TYPE)148)                     // 1.0 / sqrt(3.0)
+#define Q_HALFSQRT3  ((Q_TYPE)222)                     // 0.5 * sqrt(3.0)
+#define Q_1_2SQRT3   ((Q_TYPE)74)                      // 0.5 / sqrt(3.0)
 #define Q_TO_RADIAN  ((Q_TYPE)4)                       // pi / 180.0
-#define Q_TO_DEGREE  ((Q_TYPE)14667)                   // 180.0 / pi
+#define Q_TO_DEGREE  ((Q_TYPE)14668)                   // 180.0 / pi
+#define Q_EPSILON    ((Q_TYPE)32)                      // epsilon
 
 #include "q_template.h"
 

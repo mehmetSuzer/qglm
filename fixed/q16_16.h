@@ -69,7 +69,17 @@ typedef int32_t q16_16_t;
 
 #define Q_EPSILON        ((Q_TYPE)32)                      // epsilon
 
-#include "q_template.h"
+#include "q_conversion_template.h"
+#include "q_comparison_template.h"
+#include "q_arithmetic_template.h"
+#include "q_fast_math_template.h"
+#include "q_util_template.h"
+#include "q_root_template.h"
+#include "q_log_template.h"
+#include "q_exp_template.h"
+#include "q_tri_template.h"
+#include "q_inv_tri_template.h"
+#include "q_epsilon_template.h"
 
 #endif // QGLM_Q16_16_H
 

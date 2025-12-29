@@ -2,45 +2,45 @@
 #ifndef QGLM_Q_INTERSECTION_TEMPLATE_H
 #define QGLM_Q_INTERSECTION_TEMPLATE_H
 
-typedef struct
+static inline bool q_sphere_intersects_sphere(Q_SPHERE sphere1, Q_SPHERE sphere2)
 {
-    Q_VEC3 point;  // the contact point on the surface of the first object
-    Q_VEC3 normal; // the unit vector from the surface of the first object towards the second one
-    Q_TYPE depth;  // the total penetration
-} Q_INTERSECTION;
-
-static inline bool q_sphere_intersects_sphere(Q_SPHERE sphere1, Q_SPHERE sphere2, Q_INTERSECTION* intersection)
-{
-    const Q_VEC3 centre1_to_centre2 = q_vec3_sub(sphere2.centre, sphere1.centre);
-    const Q_TYPE dist2 = q_vec3_dot(centre1_to_centre2, centre1_to_centre2);
+    const Q_VEC3 diff = q_vec3_sub(sphere2.centre, sphere1.centre);
+    const Q_TYPE dist2 = q_vec3_dot(diff, diff);
     const Q_TYPE radii_sum = q_add(sphere1.radius, sphere2.radius);
     const Q_TYPE radii_sum2 = q_mul(radii_sum, radii_sum);
 
-    if (dist2 > radii_sum2)
-        return false;
-
-    const Q_TYPE dist = q_sqrt(dist2);
-    const Q_TYPE depth = q_sub(radii_sum, dist);
-    const Q_VEC3 normal = q_vec3_scale(centre1_to_centre2, q_div(Q_ONE, dist));
-    const Q_VEC3 point = q_vec3_add(sphere1.centre, q_vec3_scale(normal, sphere1.radius));
-
-    intersection->point = point;
-    intersection->normal = normal;
-    intersection->depth = depth;
-
-    return true;
+    return (q_le(dist2, radii_sum2));
 }
 
-static inline bool q_sphere_intersects_aabb(Q_SPHERE sphere, Q_AABB aabb, Q_INTERSECTION* intersection)
+static inline bool q_sphere_intersects_aabb(Q_SPHERE sphere, Q_AABB aabb)
 {
-    // TODO: implement
-    return false;
+    const Q_VEC3 closest = {{
+        q_clamp(sphere.centre.x, aabb.min.x, aabb.max.x),
+        q_clamp(sphere.centre.y, aabb.min.y, aabb.max.y),
+        q_clamp(sphere.centre.z, aabb.min.z, aabb.max.z),
+    }};
+
+    const Q_VEC3 diff = q_vec3_sub(sphere.centre, closest);
+    const Q_TYPE dist2 = q_vec3_dot(diff, diff);
+    const Q_TYPE radius2 = q_mul(sphere.radius, sphere.radius);
+
+    return (q_le(dist2, radius2));
 }
 
-static inline bool q_aabb_intersects_aabb(Q_AABB aabb1, Q_AABB aabb2, Q_INTERSECTION* intersection)
+static inline bool q_aabb_intersects_aabb(Q_AABB aabb1, Q_AABB aabb2)
 {
-    // TODO: implement
-    return false;
+    const Q_VEC3 min = {{
+        q_greater(aabb1.min.x, aabb2.min.x),
+        q_greater(aabb1.min.y, aabb2.min.y),
+        q_greater(aabb1.min.z, aabb2.min.z),
+    }};
+    const Q_VEC3 max = {{
+        q_smaller(aabb1.max.x, aabb2.max.x),
+        q_smaller(aabb1.max.y, aabb2.max.y),
+        q_smaller(aabb1.max.z, aabb2.max.z),
+    }};
+
+    return (q_le(min.x, max.x) && q_le(min.y, max.y) && q_le(min.z, max.z));
 }
 
 #endif // QGLM_Q_INTERSECTION_TEMPLATE_H

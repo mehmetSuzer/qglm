@@ -67,7 +67,8 @@ typedef int32_t q8_24_t;
 #define Q_TO_RADIAN      ((Q_TYPE)292818)                  // pi / 180.0
 #define Q_TO_DEGREE      ((Q_TYPE)961263669)               // 180.0 / pi
 
-#define Q_EPSILON        ((Q_TYPE)32)                      // epsilon
+#define Q_EPSILON        ((Q_TYPE)+32)                     // +epsilon
+#define Q_M_EPSILON      ((Q_TYPE)-32)                     // -epsilon
 
 #include "q_conversion_template.h"
 #include "q_comparison_template.h"

@@ -23,6 +23,7 @@ typedef union
 
 #define Q_VEC4_ZERO            ((Q_VEC4){{ Q_ZERO,  Q_ZERO,  Q_ZERO,  Q_ZERO}})
 #define Q_VEC4_ONE             ((Q_VEC4){{  Q_ONE,   Q_ONE,   Q_ONE,   Q_ONE}})
+#define Q_VEC4_M_ONE           ((Q_VEC4){{Q_M_ONE, Q_M_ONE, Q_M_ONE, Q_M_ONE}})
 
 #define Q_VEC4_RIGHT_VECTOR    ((Q_VEC4){{  Q_ONE,  Q_ZERO,  Q_ZERO,  Q_ZERO}})
 #define Q_VEC4_LEFT_VECTOR     ((Q_VEC4){{Q_M_ONE,  Q_ZERO,  Q_ZERO,  Q_ZERO}})
@@ -100,7 +101,7 @@ static inline Q_VEC4 q_vec4_scale(Q_VEC4 v, Q_TYPE q)
     }};
 }
 
-// -------------------------------- ACCELERATED ARITHMETIC -------------------------------- //
+// -------------------------------- FAST ARITHMETIC -------------------------------- //
 
 static inline Q_VEC4 q_vec4_upscale_pow_2(Q_VEC4 v, uint32_t power)
 {

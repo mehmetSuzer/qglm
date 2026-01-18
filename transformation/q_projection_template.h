@@ -28,12 +28,13 @@ static inline Q_MAT4 q_perspective(Q_TYPE fovw, Q_TYPE aspect_ratio, Q_TYPE near
     const Q_TYPE yy = q_mul(cot_half_fovw, aspect_ratio);
     const Q_TYPE zz = q_negate(q_mul(q_add(far, near), inv_far_minus_near));
     const Q_TYPE zw = q_negate(q_mul_pow_2(q_mul(q_mul(far, near), inv_far_minus_near), 1));
+    const Q_TYPE wz = Q_M_ONE;
 
     return (Q_MAT4){{
-            xx, Q_ZERO,  Q_ZERO, Q_ZERO,
-        Q_ZERO,     yy,  Q_ZERO, Q_ZERO,
-        Q_ZERO, Q_ZERO,      zz,     zw,
-        Q_ZERO, Q_ZERO, Q_M_ONE, Q_ZERO,
+            xx, Q_ZERO, Q_ZERO, Q_ZERO,
+        Q_ZERO,     yy, Q_ZERO, Q_ZERO,
+        Q_ZERO, Q_ZERO,     zz,     zw,
+        Q_ZERO, Q_ZERO,     wz, Q_ZERO,
     }};
 }
 

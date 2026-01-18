@@ -43,6 +43,36 @@ static inline Q_QUAT q_quat_angle_axis(Q_TYPE angle, Q_VEC3 axis)
     return (Q_QUAT){q_vec3_scale(axis, s), c};
 }
 
+// REQUIREMENT: from and to must be unit vectors.
+static inline Q_QUAT q_quat_from_to(Q_VEC3 from, Q_VEC3 to)
+{
+    const Q_TYPE cos_angle = q_vec3_dot(from, to);
+    Q_VEC3 axis;
+    
+    if (q_gt(cos_angle, q_sub(Q_ONE, Q_EPSILON)))
+        return Q_QUAT_IDENTITY;
+
+    if (q_lt(cos_angle, q_add(Q_M_ONE, Q_EPSILON)))
+    {
+        axis = q_vec3_cross(Q_VEC3_BACKWARD, from);
+        if (q_lt(q_vec3_length2(axis), Q_EPSILON))
+            axis = q_vec3_cross(Q_VEC3_RIGHT, from);
+
+        axis = q_vec3_normalise(axis);
+        return (Q_QUAT){axis, Q_ZERO};
+    }
+
+    axis = q_vec3_cross(from, to);
+
+    const Q_TYPE two_cos_half_angle = q_sqrt(q_mul_pow_2(q_add(cos_angle, Q_ONE), 1));
+    const Q_TYPE inverse = q_div(Q_ONE, two_cos_half_angle);
+
+    return (Q_QUAT){
+        q_vec3_scale(axis, inverse),
+        q_div_pow_2(two_cos_half_angle, 1),
+    };
+}
+
 static inline Q_QUAT q_quat_negate(Q_QUAT q)
 {
     return (Q_QUAT){q_vec3_negate(q.v), q_negate(q.w)};

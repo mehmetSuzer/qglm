@@ -4,17 +4,15 @@
 
 // The origin of the window is the top left corner of the window.
 // The near plane is mapped to Q_ZERO, while the far plane is mapped to Q_ONE.
-// REQUIREMENT: width  > 0
-// REQUIREMENT: height > 0
 static inline Q_MAT4 q_viewport(int32_t x, int32_t y, uint32_t width, uint32_t height)
 {
-    const int32_t hw = (width  - 1) / 2;
-    const int32_t hh = (height - 1) / 2;
+    const int32_t half_w = width  >> 1;
+    const int32_t half_h = height >> 1;
 
-    const Q_TYPE xx = Q_FROM_INT(hw);
-    const Q_TYPE xw = Q_FROM_INT(x + hw);
-    const Q_TYPE yy = Q_FROM_INT(-hh);
-    const Q_TYPE yw = Q_FROM_INT(y + hh);
+    const Q_TYPE xx = Q_FROM_INT(half_w);
+    const Q_TYPE xw = Q_FROM_INT(x + half_w);
+    const Q_TYPE yy = Q_FROM_INT(-half_h);
+    const Q_TYPE yw = Q_FROM_INT(y + half_h);
 
     return (Q_MAT4){{
             xx, Q_ZERO, Q_ZERO,     xw,

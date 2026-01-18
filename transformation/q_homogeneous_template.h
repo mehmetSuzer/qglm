@@ -31,22 +31,23 @@ static inline Q_VEC3 q_homogeneous_vector_to_vec3(Q_VEC4 v)
     }};
 }
 
-
 static inline Q_VEC3 q_homogeneous_point_to_vec3(Q_VEC4 v)
 {
+    const Q_TYPE inv_w = q_div(Q_ONE, v.w);
     return (Q_VEC3){{
-        q_div(v.x, v.w),
-        q_div(v.y, v.w),
-        q_div(v.z, v.w),
+        q_mul(v.x, inv_w),
+        q_mul(v.y, inv_w),
+        q_mul(v.z, inv_w),
     }};
 }
 
 static inline Q_VEC4 q_homogeneous_point_normalise(Q_VEC4 v)
 {
+    const Q_TYPE inv_w = q_div(Q_ONE, v.w);
     return (Q_VEC4){{
-        q_div(v.x, v.w),
-        q_div(v.y, v.w),
-        q_div(v.z, v.w),
+        q_mul(v.x, inv_w),
+        q_mul(v.y, inv_w),
+        q_mul(v.z, inv_w),
         Q_ONE,
     }};
 }

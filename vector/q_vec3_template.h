@@ -27,6 +27,7 @@ typedef union
 
 #define Q_VEC3_ZERO     ((Q_VEC3){{ Q_ZERO,  Q_ZERO,  Q_ZERO}})
 #define Q_VEC3_ONE      ((Q_VEC3){{  Q_ONE,   Q_ONE,   Q_ONE}})
+#define Q_VEC3_M_ONE    ((Q_VEC3){{Q_M_ONE, Q_M_ONE, Q_M_ONE}})
 
 #define Q_VEC3_RIGHT    ((Q_VEC3){{  Q_ONE,  Q_ZERO,  Q_ZERO}})
 #define Q_VEC3_LEFT     ((Q_VEC3){{Q_M_ONE,  Q_ZERO,  Q_ZERO}})
@@ -91,7 +92,7 @@ static inline Q_VEC3 q_vec3_scale(Q_VEC3 v, Q_TYPE q)
     }};
 }
 
-// -------------------------------- ACCELERATED ARITHMETIC -------------------------------- //
+// -------------------------------- FAST ARITHMETIC -------------------------------- //
 
 static inline Q_VEC3 q_vec3_upscale_pow_2(Q_VEC3 v, uint32_t power)
 {

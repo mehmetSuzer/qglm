@@ -13,8 +13,8 @@ typedef int32_t q24_8_t;
 #define Q_INT_BITS  24
 #define Q_FRAC_BITS  8
 
-#define Q_INT_MASK  0xFFFFFF00
-#define Q_FRAC_MASK 0x000000FF
+#define Q_INT_MASK  ((uint32_t)0xFFFFFF00u)
+#define Q_FRAC_MASK ((uint32_t)0x000000FFu)
 
 #define Q_MIN            ((Q_TYPE)INT32_MIN)               // -8388608.0
 #define Q_MAX            ((Q_TYPE)INT32_MAX)               // +8388608.0 - 2^(-8)
@@ -72,17 +72,74 @@ typedef int32_t q24_8_t;
 #define Q_EPSILON        ((Q_TYPE)+32)                     // +epsilon
 #define Q_M_EPSILON      ((Q_TYPE)-32)                     // -epsilon
 
-#include "q_conversion_template.h"
-#include "q_comparison_template.h"
-#include "q_arithmetic_template.h"
-#include "q_fast_math_template.h"
-#include "q_util_template.h"
-#include "q_root_template.h"
-#include "q_log_template.h"
-#include "q_exp_template.h"
-#include "q_tri_template.h"
-#include "q_inv_tri_template.h"
-#include "q_epsilon_template.h"
+#include "core/q_conversion_template.h"
+#include "core/q_comparison_template.h"
+#include "core/q_arithmetic_template.h"
+#include "core/q_fast_math_template.h"
+#include "core/q_util_template.h"
+#include "core/q_root_template.h"
+#include "core/q_log_template.h"
+#include "core/q_exp_template.h"
+#include "core/q_tri_template.h"
+#include "core/q_inv_tri_template.h"
+#include "core/q_epsilon_template.h"
+
+#define Q_VEC2 q24_8_vec2_t
+#define Q_VEC3 q24_8_vec3_t
+#define Q_VEC4 q24_8_vec4_t
+
+#include "vector/q_vec2_template.h"
+#include "vector/q_vec3_template.h"
+#include "vector/q_vec4_template.h"
+
+#define Q_QUAT q24_8_quat_t
+
+#include "quat/q_quat_template.h"
+
+#define Q_MAT2      q24_8_mat2_t
+#define Q_MAT2X3    q24_8_mat2x3_t
+#define Q_MAT2X4    q24_8_mat2x4_t
+#define Q_MAT3X2    q24_8_mat3x2_t
+#define Q_MAT3      q24_8_mat3_t
+#define Q_MAT3X4    q24_8_mat3x4_t
+#define Q_MAT4X2    q24_8_mat4x2_t
+#define Q_MAT4X3    q24_8_mat4x3_t
+#define Q_MAT4      q24_8_mat4_t
+
+#include "matrix/q_mat2_template.h"
+#include "matrix/q_mat2x3_template.h"
+#include "matrix/q_mat2x4_template.h"
+#include "matrix/q_mat3x2_template.h"
+#include "matrix/q_mat3_template.h"
+#include "matrix/q_mat3x4_template.h"
+#include "matrix/q_mat4x2_template.h"
+#include "matrix/q_mat4x3_template.h"
+#include "matrix/q_mat4_template.h"
+#include "matrix/q_mat_tr_template.h"
+#include "matrix/q_mat_mul_template.h"
+#include "matrix/q_mat_cast_template.h"
+
+#include "transformation/q_view_template.h"
+#include "transformation/q_projection_template.h"
+#include "transformation/q_viewport_template.h"
+#include "transformation/q_homogeneous_template.h"
+#include "transformation/q_transform_2d_template.h"
+#include "transformation/q_transform_3d_template.h"
+
+#define Q_RAY           q24_8_ray_t
+#define Q_AABB          q24_8_aabb_t
+#define Q_PLANE         q24_8_plane_t
+#define Q_SPHERE        q24_8_sphere_t
+#define Q_TRIANGLE      q24_8_triangle_t
+#define Q_COLLISION     q24_8_collision_t
+
+#include "geometry/q_ray_template.h"
+#include "geometry/q_aabb_template.h"
+#include "geometry/q_plane_template.h"
+#include "geometry/q_sphere_template.h"
+#include "geometry/q_triangle_template.h"
+#include "geometry/q_intersection_template.h"
+#include "geometry/q_collision_template.h"
 
 #endif // QGLM_Q24_8_H
 

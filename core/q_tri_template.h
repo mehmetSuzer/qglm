@@ -52,7 +52,7 @@ static inline Q_TYPE q_to_degree(Q_TYPE radian)
     return q_mul(radian, Q_TO_DEGREE);
 }
 
-// Wraps the angle to [-pi, pi)
+// Wraps angle to [-pi, pi)
 static inline Q_TYPE q_wrap_pi(Q_TYPE angle)
 {
     angle = q_add(angle, Q_PI);

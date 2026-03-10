@@ -7,7 +7,7 @@ typedef struct
     Q_VEC3 v0;
     Q_VEC3 v1;
     Q_VEC3 v2;
-} Q_TRIANGLE; // REQUIREMENT: vertices must not lie on a straight line.
+} Q_TRIANGLE; // REQUIREMENT: triangles must not be degenerate.
 
 static inline Q_VEC3 q_triangle_normal(Q_TRIANGLE triangle)
 {
@@ -26,32 +26,38 @@ static inline bool q_triangle_intersects_ray(Q_TRIANGLE triangle, Q_RAY ray, Q_T
     const Q_VEC3 ray_cross_edge02 = q_vec3_cross(ray.direction, edge02);
     const Q_TYPE det = q_vec3_dot(edge01, ray_cross_edge02);
 
-    if (q_epsilon_eq(det, Q_ZERO, Q_EPSILON))
+    if (q_eq_epsilon(det, Q_ZERO, Q_EPSILON))
+    {
         return false;
+    }
 
     const Q_TYPE inv_det = q_div(Q_ONE, det);
     const Q_VEC3 v0_to_source = q_vec3_sub(ray.source, triangle.v0);
     const Q_TYPE bary1 = q_mul(inv_det, q_vec3_dot(v0_to_source, ray_cross_edge02));
 
     if (q_lt(bary1, q_negate(Q_EPSILON)) || q_gt(bary1, q_add(Q_ONE, Q_EPSILON)))
+    {
         return false;
+    }
 
     const Q_VEC3 v0_to_source_cross_edge01 = q_vec3_cross(v0_to_source, edge01);
     const Q_TYPE bary2 = q_mul(inv_det, q_vec3_dot(ray.direction, v0_to_source_cross_edge01));
     const Q_TYPE bary0 = q_sub(Q_ONE, q_add(bary1, bary2));
 
     if (q_lt(bary2, q_negate(Q_EPSILON)) || q_lt(bary0, q_negate(Q_EPSILON)))
+    {
         return false;
-
+    }
+    
     const Q_TYPE distance = q_mul(inv_det, q_vec3_dot(edge02, v0_to_source_cross_edge01));
     
-    if (near < distance && distance < far) 
+    if (distance < near || distance > far)
     {
-        *dist_out = distance;
-        return true;
+        return false;
     }
 
-    return false;
+    *dist_out = distance;
+    return true;
 }
 
 #endif // QGLM_Q_TRIANGLE_TEMPLATE_H

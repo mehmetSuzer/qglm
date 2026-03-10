@@ -211,12 +211,10 @@ static inline Q_VEC3 q_vec3_bisector(Q_VEC3 u1, Q_VEC3 u2)
 
 static inline Q_VEC3 q_vec3_spherical(Q_TYPE radius, Q_TYPE polar, Q_TYPE azimuth)
 {
-    Q_TYPE sp;
-    Q_TYPE cp;
+    Q_TYPE sp, cp;
     q_sincos(polar, &sp, &cp);
 
-    Q_TYPE sa;
-    Q_TYPE ca;
+    Q_TYPE sa, ca;
     q_sincos(azimuth, &sa, &ca);
 
     const Q_TYPE x = q_mul(q_mul(radius, sp), ca);
@@ -227,8 +225,7 @@ static inline Q_VEC3 q_vec3_spherical(Q_TYPE radius, Q_TYPE polar, Q_TYPE azimut
 
 static inline Q_VEC3 q_vec3_cylindrical(Q_TYPE radius, Q_TYPE azimuth, Q_TYPE height)
 {
-    Q_TYPE sa;
-    Q_TYPE ca;
+    Q_TYPE sa, ca;
     q_sincos(azimuth, &sa, &ca);    
     
     const Q_TYPE x = q_mul(radius, ca);
@@ -239,24 +236,24 @@ static inline Q_VEC3 q_vec3_cylindrical(Q_TYPE radius, Q_TYPE azimuth, Q_TYPE he
 
 // -------------------------------- COMPARISON -------------------------------- //
 
-static inline bool q_vec3_epsilon_is_normalised(Q_VEC3 v, Q_TYPE epsilon)
+static inline bool q_vec3_is_normalised_epsilon(Q_VEC3 v, Q_TYPE epsilon)
 {
     const Q_TYPE length2 = q_vec3_length2(v);
-    return q_epsilon_eq(length2, Q_ONE, epsilon);
+    return q_eq_epsilon(length2, Q_ONE, epsilon);
 }
 
-static inline bool q_vec3_epsilon_eq(Q_VEC3 v1, Q_VEC3 v2, Q_TYPE epsilon)
+static inline bool q_vec3_eq_epsilon(Q_VEC3 v1, Q_VEC3 v2, Q_TYPE epsilon)
 {
-    return q_epsilon_eq(v1.x, v2.x, epsilon) &&
-           q_epsilon_eq(v1.y, v2.y, epsilon) &&
-           q_epsilon_eq(v1.z, v2.z, epsilon);
+    return q_eq_epsilon(v1.x, v2.x, epsilon) &&
+           q_eq_epsilon(v1.y, v2.y, epsilon) &&
+           q_eq_epsilon(v1.z, v2.z, epsilon);
 }
 
-static inline bool q_vec3_epsilon_ne(Q_VEC3 v1, Q_VEC3 v2, Q_TYPE epsilon)
+static inline bool q_vec3_ne_epsilon(Q_VEC3 v1, Q_VEC3 v2, Q_TYPE epsilon)
 {
-    return q_epsilon_ne(v1.x, v2.x, epsilon) ||
-           q_epsilon_ne(v1.y, v2.y, epsilon) ||
-           q_epsilon_ne(v1.z, v2.z, epsilon);
+    return q_ne_epsilon(v1.x, v2.x, epsilon) ||
+           q_ne_epsilon(v1.y, v2.y, epsilon) ||
+           q_ne_epsilon(v1.z, v2.z, epsilon);
 }
 
 #endif // QGLM_Q_VEC3_TEMPLATE_H

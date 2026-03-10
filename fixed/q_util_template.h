@@ -4,8 +4,8 @@
 
 static inline Q_TYPE q_sign(Q_TYPE q)
 {
-    const int32_t sign = q_gt(q, Q_ZERO) - q_lt(q, Q_ZERO);
-    return sign * (1 << Q_FRAC_BITS);
+    return (q <  Q_ZERO) ? Q_M_ONE :
+           (q == Q_ZERO) ? Q_ZERO  : Q_ONE;
 }
 
 static inline Q_TYPE q_smaller(Q_TYPE q1, Q_TYPE q2)

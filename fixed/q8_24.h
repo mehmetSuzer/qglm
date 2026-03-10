@@ -38,10 +38,10 @@ typedef int32_t q8_24_t;
 #define Q_M_THREE        ((Q_TYPE)-(3 << Q_FRAC_BITS))     // -3.00
 
 #define Q_PI             ((Q_TYPE)52707179)                // pi
-#define Q_2PI            ((Q_TYPE)105414357)               // pi * 2.0
+#define Q_TWOPI          ((Q_TYPE)105414357)               // pi * 2.0
 #define Q_HALFPI         ((Q_TYPE)26353589)                // pi / 2.0
 #define Q_THIRDPI        ((Q_TYPE)17569060)                // pi / 3.0
-#define Q_FOURTHPI       ((Q_TYPE)13176795)                // pi / 4.0
+#define Q_QUARTERPI      ((Q_TYPE)13176795)                // pi / 4.0
 #define Q_1_PI           ((Q_TYPE)5340354)                 // 1.0 / pi
 #define Q_2_PI           ((Q_TYPE)10680707)                // 2.0 / pi
 #define Q_3_PI           ((Q_TYPE)16021061)                // 3.0 / pi
@@ -52,10 +52,12 @@ typedef int32_t q8_24_t;
 #define Q_3_SQRTPI       ((Q_TYPE)28396592)                // 3.0 / sqrt(pi)
 
 #define Q_E              ((Q_TYPE)45605201)                // e
-#define Q_LOG2E          ((Q_TYPE)24204406)                // log2(e)
-#define Q_LOG10E         ((Q_TYPE)7286252)                 // log10(e)
+#define Q_LOG2_E         ((Q_TYPE)24204406)                // log2(e)
+#define Q_LOG2_10        ((Q_TYPE)55732705)                // log2(10)
 #define Q_LN2            ((Q_TYPE)11629080)                // ln(2.0)
 #define Q_LN10           ((Q_TYPE)38630967)                // ln(10.0)
+#define Q_LOG10_2        ((Q_TYPE)5050445)                 // log10(2)
+#define Q_LOG10_E        ((Q_TYPE)7286252)                 // log10(e)
 
 #define Q_SQRT2          ((Q_TYPE)23726566)                // sqrt(2.0)
 #define Q_SQRT3          ((Q_TYPE)29058991)                // sqrt(3.0)

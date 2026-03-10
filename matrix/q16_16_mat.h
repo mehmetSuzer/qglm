@@ -2,9 +2,6 @@
 #ifndef QGLM_Q16_16_MAT_H
 #define QGLM_Q16_16_MAT_H
 
-#include "../vector/q16_16_vec.h"
-#include "../quat/q16_16_quat.h"
-
 #define Q_MAT2      q16_16_mat2_t
 #define Q_MAT2X3    q16_16_mat2x3_t
 #define Q_MAT2X4    q16_16_mat2x4_t

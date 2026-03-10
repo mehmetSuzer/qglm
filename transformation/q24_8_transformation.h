@@ -2,8 +2,6 @@
 #ifndef QGLM_Q24_8_TRANSFORMATION_H
 #define QGLM_Q24_8_TRANSFORMATION_H
 
-#include "../matrix/q24_8_mat.h"
-
 #include "q_view_template.h"
 #include "q_projection_template.h"
 #include "q_viewport_template.h"

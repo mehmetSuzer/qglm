@@ -2,8 +2,6 @@
 #ifndef QGLM_Q8_24_VEC_H
 #define QGLM_Q8_24_VEC_H
 
-#include "../fixed/q8_24.h"
-
 #define Q_VEC2 q8_24_vec2_t
 #define Q_VEC3 q8_24_vec3_t
 #define Q_VEC4 q8_24_vec4_t

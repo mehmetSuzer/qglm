@@ -200,8 +200,7 @@ static inline Q_VEC2 q_vec2_bisector(Q_VEC2 u1, Q_VEC2 u2)
 // REQUIREMENT: angle must be in radians.
 static inline Q_VEC2 q_vec2_from_polar(Q_TYPE radius, Q_TYPE angle)
 {
-    Q_TYPE s;
-    Q_TYPE c;
+    Q_TYPE s, c;
     q_sincos(angle, &s, &c);
 
     const Q_TYPE x = q_mul(radius, c);
@@ -211,22 +210,22 @@ static inline Q_VEC2 q_vec2_from_polar(Q_TYPE radius, Q_TYPE angle)
 
 // -------------------------------- COMPARISON -------------------------------- //
 
-static inline bool q_vec2_epsilon_is_normalised(Q_VEC2 v, Q_TYPE epsilon)
+static inline bool q_vec2_is_normalised_epsilon(Q_VEC2 v, Q_TYPE epsilon)
 {
     const Q_TYPE length2 = q_vec2_length2(v);
-    return q_epsilon_eq(length2, Q_ONE, epsilon);
+    return q_eq_epsilon(length2, Q_ONE, epsilon);
 }
 
-static inline bool q_vec2_epsilon_eq(Q_VEC2 v1, Q_VEC2 v2, Q_TYPE epsilon)
+static inline bool q_vec2_eq_epsilon(Q_VEC2 v1, Q_VEC2 v2, Q_TYPE epsilon)
 {
-    return q_epsilon_eq(v1.x, v2.x, epsilon) &&
-           q_epsilon_eq(v1.y, v2.y, epsilon);
+    return q_eq_epsilon(v1.x, v2.x, epsilon) &&
+           q_eq_epsilon(v1.y, v2.y, epsilon);
 }
 
-static inline bool q_vec2_epsilon_ne(Q_VEC2 v1, Q_VEC2 v2, Q_TYPE epsilon)
+static inline bool q_vec2_ne_epsilon(Q_VEC2 v1, Q_VEC2 v2, Q_TYPE epsilon)
 {
-    return q_epsilon_ne(v1.x, v2.x, epsilon) ||
-           q_epsilon_ne(v1.y, v2.y, epsilon);
+    return q_ne_epsilon(v1.x, v2.x, epsilon) ||
+           q_ne_epsilon(v1.y, v2.y, epsilon);
 }
 
 #endif // QGLM_Q_VEC2_TEMPLATE_H

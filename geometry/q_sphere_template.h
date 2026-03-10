@@ -5,7 +5,7 @@
 typedef struct
 {
     Q_VEC3 centre;
-    Q_TYPE radius; // REQUIREMENT: radius must be positive.
+    Q_TYPE radius; // REQUIREMENT: radius must be non-negative.
 } Q_SPHERE;
 
 static inline Q_VEC3 q_sphere_normal_at(Q_SPHERE sphere, Q_VEC3 point_on_sphere)
@@ -41,8 +41,10 @@ static inline bool q_sphere_intersects_ray(Q_SPHERE sphere, Q_RAY ray, Q_TYPE ne
     const Q_TYPE quarter_discriminant = q_add(q_sub(dot2, dist2), radius2);
 
     if (q_lt(quarter_discriminant, Q_EPSILON))
+    {
         return false;
-
+    }
+    
     const Q_TYPE half_sqrt_discriminant = q_sqrt(quarter_discriminant);
     const Q_TYPE low_dist = q_negate(q_add(dot, half_sqrt_discriminant));
 

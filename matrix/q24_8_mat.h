@@ -2,9 +2,6 @@
 #ifndef QGLM_Q24_8_MAT_H
 #define QGLM_Q24_8_MAT_H
 
-#include "../vector/q24_8_vec.h"
-#include "../quat/q24_8_quat.h"
-
 #define Q_MAT2      q24_8_mat2_t
 #define Q_MAT2X3    q24_8_mat2x3_t
 #define Q_MAT2X4    q24_8_mat2x4_t

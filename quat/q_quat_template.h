@@ -10,13 +10,12 @@ typedef struct
 
 #define Q_QUAT_IDENTITY ((Q_QUAT){Q_VEC3_ZERO, Q_ONE})
  
-// REQUIREMENT: angles must be in radians.
+// REQUIREMENT: angles = (roll, pitch, yaw).
 static inline Q_QUAT q_quat_euler_angles(Q_VEC3 angles)
 {
     const Q_VEC3 half = q_vec3_downscale_pow_2(angles, 1);
 
-    Q_VEC3 s;
-    Q_VEC3 c;
+    Q_VEC3 s, c;
     q_sincos(half.x, &s.x, &c.x);
     q_sincos(half.y, &s.y, &c.y);
     q_sincos(half.z, &s.z, &c.z);
@@ -30,14 +29,12 @@ static inline Q_QUAT q_quat_euler_angles(Q_VEC3 angles)
     return (Q_QUAT){v, w};
 }
 
-// REQUIREMENT: angle must be in radians.
 // REQUIREMENT: axis must be a unit vector.
 static inline Q_QUAT q_quat_angle_axis(Q_TYPE angle, Q_VEC3 axis)
 {
     const Q_TYPE half = q_div_pow_2(angle, 1);
 
-    Q_TYPE s;
-    Q_TYPE c;
+    Q_TYPE s, c;
     q_sincos(half, &s, &c);
     
     return (Q_QUAT){q_vec3_scale(axis, s), c};
@@ -50,14 +47,16 @@ static inline Q_QUAT q_quat_from_to(Q_VEC3 from, Q_VEC3 to)
     Q_VEC3 axis;
     
     if (q_gt(cos_angle, q_sub(Q_ONE, Q_EPSILON)))
+    {
         return Q_QUAT_IDENTITY;
-
+    }
     if (q_lt(cos_angle, q_add(Q_M_ONE, Q_EPSILON)))
     {
         axis = q_vec3_cross(Q_VEC3_BACKWARD, from);
         if (q_lt(q_vec3_length2(axis), Q_EPSILON))
+        {
             axis = q_vec3_cross(Q_VEC3_RIGHT, from);
-
+        }
         axis = q_vec3_normalise(axis);
         return (Q_QUAT){axis, Q_ZERO};
     }

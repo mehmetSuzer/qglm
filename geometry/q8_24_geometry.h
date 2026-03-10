@@ -2,8 +2,6 @@
 #ifndef QGLM_Q8_24_GEOMETRY_H
 #define QGLM_Q8_24_GEOMETRY_H
 
-#include "../vector/q8_24_vec.h"
-
 #define Q_RAY           q8_24_ray_t
 #define Q_AABB          q8_24_aabb_t
 #define Q_PLANE         q8_24_plane_t

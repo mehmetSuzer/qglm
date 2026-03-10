@@ -23,37 +23,33 @@ static inline void q_translate_2d(Q_MAT3* m, Q_VEC2 v)
     m->zz = q_add(m->zz, dz);
 }
 
-// REQUIREMENT: angle must be in radians.
 static inline Q_MAT3 q_rotate_mat3(Q_TYPE angle)
 {
-    Q_TYPE p_s;
-    Q_TYPE p_c;
-    q_sincos(angle, &p_s, &p_c);
-    const Q_TYPE n_s = q_negate(p_s);
+    Q_TYPE ps, pc;
+    q_sincos(angle, &ps, &pc);
+    const Q_TYPE ns = q_negate(ps);
 
     return (Q_MAT3){{
-           p_c,    n_s, Q_ZERO,
-           p_s,    p_c, Q_ZERO,
+            pc,     ns, Q_ZERO,
+            ps,     pc, Q_ZERO,
         Q_ZERO, Q_ZERO,  Q_ONE,    
     }};
 }
 
 // M <- M * R
-// REQUIREMENT: angle must be in radians.
 static inline void q_rotate_2d(Q_MAT3* m, Q_TYPE angle)
 {
-    Q_TYPE p_s;
-    Q_TYPE p_c;
-    q_sincos(angle, &p_s, &p_c);
-    const Q_TYPE n_s = q_negate(p_s);
+    Q_TYPE ps, pc;
+    q_sincos(angle, &ps, &pc);
+    const Q_TYPE ns = q_negate(ps);
 
-    const Q_TYPE xx = q_add(q_mul(m->xx, p_c), q_mul(m->xy, p_s)); 
-    const Q_TYPE yx = q_add(q_mul(m->yx, p_c), q_mul(m->yy, p_s)); 
-    const Q_TYPE zx = q_add(q_mul(m->zx, p_c), q_mul(m->zy, p_s)); 
+    const Q_TYPE xx = q_add(q_mul(m->xx, pc), q_mul(m->xy, ps)); 
+    const Q_TYPE yx = q_add(q_mul(m->yx, pc), q_mul(m->yy, ps)); 
+    const Q_TYPE zx = q_add(q_mul(m->zx, pc), q_mul(m->zy, ps)); 
 
-    const Q_TYPE xy = q_add(q_mul(m->xx, n_s), q_mul(m->xy, p_c)); 
-    const Q_TYPE yy = q_add(q_mul(m->yx, n_s), q_mul(m->yy, p_c)); 
-    const Q_TYPE zy = q_add(q_mul(m->zx, n_s), q_mul(m->zy, p_c)); 
+    const Q_TYPE xy = q_add(q_mul(m->xx, ns), q_mul(m->xy, pc)); 
+    const Q_TYPE yy = q_add(q_mul(m->yx, ns), q_mul(m->yy, pc)); 
+    const Q_TYPE zy = q_add(q_mul(m->zx, ns), q_mul(m->zy, pc)); 
     
     m->xx = xx;
     m->yx = yx;

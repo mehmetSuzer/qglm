@@ -200,26 +200,26 @@ static inline Q_VEC4 q_vec4_normalise(Q_VEC4 v)
 
 // -------------------------------- COMPARISON -------------------------------- //
 
-static inline bool q_vec4_epsilon_is_normalised(Q_VEC4 v, Q_TYPE epsilon)
+static inline bool q_vec4_is_normalised_epsilon(Q_VEC4 v, Q_TYPE epsilon)
 {
     const Q_TYPE length2 = q_vec4_length2(v);
-    return q_epsilon_eq(length2, Q_ONE, epsilon);
+    return q_eq_epsilon(length2, Q_ONE, epsilon);
 }
 
-static inline bool q_vec4_epsilon_eq(Q_VEC4 v1, Q_VEC4 v2, Q_TYPE epsilon)
+static inline bool q_vec4_eq_epsilon(Q_VEC4 v1, Q_VEC4 v2, Q_TYPE epsilon)
 {
-    return q_epsilon_eq(v1.x, v2.x, epsilon) &&
-           q_epsilon_eq(v1.y, v2.y, epsilon) &&
-           q_epsilon_eq(v1.z, v2.z, epsilon) &&
-           q_epsilon_eq(v1.w, v2.w, epsilon);
+    return q_eq_epsilon(v1.x, v2.x, epsilon) &&
+           q_eq_epsilon(v1.y, v2.y, epsilon) &&
+           q_eq_epsilon(v1.z, v2.z, epsilon) &&
+           q_eq_epsilon(v1.w, v2.w, epsilon);
 }
 
-static inline bool q_vec4_epsilon_ne(Q_VEC4 v1, Q_VEC4 v2, Q_TYPE epsilon)
+static inline bool q_vec4_ne_epsilon(Q_VEC4 v1, Q_VEC4 v2, Q_TYPE epsilon)
 {
-    return q_epsilon_ne(v1.x, v2.x, epsilon) ||
-           q_epsilon_ne(v1.y, v2.y, epsilon) ||
-           q_epsilon_ne(v1.z, v2.z, epsilon) ||
-           q_epsilon_ne(v1.w, v2.w, epsilon);
+    return q_ne_epsilon(v1.x, v2.x, epsilon) ||
+           q_ne_epsilon(v1.y, v2.y, epsilon) ||
+           q_ne_epsilon(v1.z, v2.z, epsilon) ||
+           q_ne_epsilon(v1.w, v2.w, epsilon);
 }
 
 #endif // QGLM_Q_VEC4_TEMPLATE_H

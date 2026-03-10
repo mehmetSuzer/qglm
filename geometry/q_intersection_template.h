@@ -4,8 +4,7 @@
 
 static inline bool q_sphere_intersects_sphere(Q_SPHERE sphere1, Q_SPHERE sphere2)
 {
-    const Q_VEC3 diff = q_vec3_sub(sphere2.centre, sphere1.centre);
-    const Q_TYPE dist2 = q_vec3_dot(diff, diff);
+    const Q_TYPE dist2 = q_vec3_distance2(sphere1.centre, sphere2.centre);
     const Q_TYPE radii_sum = q_add(sphere1.radius, sphere2.radius);
     const Q_TYPE radii_sum2 = q_mul(radii_sum, radii_sum);
 
@@ -20,8 +19,7 @@ static inline bool q_sphere_intersects_aabb(Q_SPHERE sphere, Q_AABB aabb)
         q_clamp(sphere.centre.z, aabb.min.z, aabb.max.z),
     }};
 
-    const Q_VEC3 diff = q_vec3_sub(sphere.centre, closest);
-    const Q_TYPE dist2 = q_vec3_dot(diff, diff);
+    const Q_TYPE dist2 = q_vec3_distance2(sphere.centre, closest);
     const Q_TYPE radius2 = q_mul(sphere.radius, sphere.radius);
 
     return (q_le(dist2, radius2));

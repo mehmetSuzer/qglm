@@ -7,7 +7,7 @@
 
 #define Q_CORDIC_ITER (Q_FRAC_BITS + 1)
 
-static const Q_TYPE q_cordic_atan_table[] = {
+static const Q_TYPE q_cordic_atan_table[32] = {
     Q_FROM_DOUBLE(0.78539816339744827899949086713605), // atan(2^-00)
     Q_FROM_DOUBLE(0.46364760900080609351547877849953), // atan(2^-01)
     Q_FROM_DOUBLE(0.24497866312686414347332686247682), // atan(2^-02)
@@ -53,19 +53,19 @@ static inline Q_TYPE q_to_degree(Q_TYPE radian)
 }
 
 // Wraps the angle to [-pi, pi)
-static inline Q_TYPE q_wrap_pi(Q_TYPE theta)
+static inline Q_TYPE q_wrap_pi(Q_TYPE angle)
 {
-    theta = q_add(theta, Q_PI);
-    theta = q_mod(theta, Q_2PI);
-    theta = q_sub(theta, Q_PI);
-    return theta;
+    angle = q_add(angle, Q_PI);
+    angle = q_mod(angle, Q_TWOPI);
+    angle = q_sub(angle, Q_PI);
+    return angle;
 }
 
-static inline void q_sincos(Q_TYPE theta, Q_TYPE* sin_out, Q_TYPE* cos_out)
+static inline void q_sincos(Q_TYPE angle, Q_TYPE* sin_out, Q_TYPE* cos_out)
 {
     Q_TYPE x = Q_CORDIC_K;
     Q_TYPE y = Q_ZERO;
-    Q_TYPE z = q_wrap_pi(theta);
+    Q_TYPE z = q_wrap_pi(angle);
 
     int sin_sign = 1;
     int cos_sign = 1;
@@ -105,46 +105,46 @@ static inline void q_sincos(Q_TYPE theta, Q_TYPE* sin_out, Q_TYPE* cos_out)
     *sin_out = (sin_sign > 0) ? y : q_negate(y);
 }
 
-static inline Q_TYPE q_sin(Q_TYPE theta)
+static inline Q_TYPE q_sin(Q_TYPE angle)
 {
-    Q_TYPE s;
-    Q_TYPE c;
-    q_sincos(theta, &s, &c);
+    Q_TYPE s, c;
+    q_sincos(angle, &s, &c);
     return s;
 }
 
-static inline Q_TYPE q_cos(Q_TYPE theta)
+static inline Q_TYPE q_cos(Q_TYPE angle)
 {
-    Q_TYPE s;
-    Q_TYPE c;
-    q_sincos(theta, &s, &c);
+    Q_TYPE s, c;
+    q_sincos(angle, &s, &c);
     return c;
 }
 
 // tan(x) = sin(x) / cos(x)
-static inline Q_TYPE q_tan(Q_TYPE theta)
+static inline Q_TYPE q_tan(Q_TYPE angle)
 {
-    Q_TYPE s;
-    Q_TYPE c;
-    q_sincos(theta, &s, &c);
+    Q_TYPE s, c;
+    q_sincos(angle, &s, &c);
 
 #ifdef QGLM_SAFE_MATH
     if (q_eq(c, Q_ZERO))
+    {
         return q_lt(s, Q_ZERO) ? Q_MIN : Q_MAX;
+    }
 #endif
     return q_div(s, c);
 }
 
 // cot(x) = cos(x) / sin(x)
-static inline Q_TYPE q_cot(Q_TYPE theta)
+static inline Q_TYPE q_cot(Q_TYPE angle)
 {
-    Q_TYPE s;
-    Q_TYPE c;
-    q_sincos(theta, &s, &c);
+    Q_TYPE s, c;
+    q_sincos(angle, &s, &c);
 
 #ifdef QGLM_SAFE_MATH
     if (q_eq(s, Q_ZERO))
+    {
         return q_lt(c, Q_ZERO) ? Q_MIN : Q_MAX;
+    }
 #endif
     return q_div(c, s);
 }

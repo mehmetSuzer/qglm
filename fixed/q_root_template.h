@@ -5,7 +5,9 @@
 static inline Q_TYPE q_sqrt(Q_TYPE q)
 {
     if (q_le(q, Q_ZERO))
+    {
         return Q_ZERO;
+    }
 
     int32_t power = 0;
 
@@ -23,8 +25,8 @@ static inline Q_TYPE q_sqrt(Q_TYPE q)
     x = q_div_pow_2(q_add(x, q_div(q, x)), 1); 
 
     // Undo scaling
-    if (power > 0) x = q_mul_pow_2(x,  power);
-    if (power < 0) x = q_div_pow_2(x, -power);
+    if (power > 0) { x = q_mul_pow_2(x,  power); }
+    if (power < 0) { x = q_div_pow_2(x, -power); }
 
     return x;
 }
@@ -32,7 +34,9 @@ static inline Q_TYPE q_sqrt(Q_TYPE q)
 static inline Q_TYPE q_invsqrt(Q_TYPE q)
 {
     if (q_le(q, Q_ZERO))
+    {
         return Q_MAX;
+    }
 
     int32_t power = 0;
 
@@ -50,8 +54,8 @@ static inline Q_TYPE q_invsqrt(Q_TYPE q)
     x = q_div_pow_2(q_mul(x, q_sub(Q_THREE, q_mul(q, q_mul(x, x)))), 1);
 
     // Undo scaling
-    if (power > 0) x = q_mul_pow_2(x,  power);
-    if (power < 0) x = q_div_pow_2(x, -power);
+    if (power > 0) { x = q_mul_pow_2(x,  power); }
+    if (power < 0) { x = q_div_pow_2(x, -power); }
 
     return x;
 }

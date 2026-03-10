@@ -16,9 +16,11 @@ static inline Q_TYPE q_plane_signed_distance(Q_PLANE plane, Q_VEC3 point)
 static inline bool q_plane_intersects_ray(Q_PLANE plane, Q_RAY ray, Q_TYPE near, Q_TYPE far, Q_TYPE* dist_out)
 {
     const Q_TYPE dot_dir_normal = q_vec3_dot(ray.direction, plane.normal);
-    if (q_epsilon_eq(dot_dir_normal, Q_ZERO, Q_EPSILON))
+    if (q_eq_epsilon(dot_dir_normal, Q_ZERO, Q_EPSILON))
+    {
        return false;
-
+    }
+    
     const Q_TYPE dot_source_normal = q_vec3_dot(ray.source, plane.normal);
     const Q_TYPE distance = q_negate(q_div(q_add(plane.offset, dot_source_normal), dot_dir_normal));
 

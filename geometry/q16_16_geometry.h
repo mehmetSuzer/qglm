@@ -2,8 +2,6 @@
 #ifndef QGLM_Q16_16_GEOMETRY_H
 #define QGLM_Q16_16_GEOMETRY_H
 
-#include "../vector/q16_16_vec.h"
-
 #define Q_RAY           q16_16_ray_t
 #define Q_AABB          q16_16_aabb_t
 #define Q_PLANE         q16_16_plane_t

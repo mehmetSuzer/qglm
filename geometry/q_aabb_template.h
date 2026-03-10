@@ -6,7 +6,7 @@ typedef struct
 {
     Q_VEC3 min;
     Q_VEC3 max;
-} Q_AABB; // REQUIREMENT: max coordinates must be greater than min coordinates
+} Q_AABB; // REQUIREMENT: max coordinates must be greater than min coordinates.
 
 static inline Q_AABB q_aabb_from_centre_size(Q_VEC3 centre, Q_VEC3 size)
 {
@@ -19,8 +19,7 @@ static inline Q_AABB q_aabb_from_centre_size(Q_VEC3 centre, Q_VEC3 size)
 
 static inline Q_VEC3 q_aabb_centre(Q_AABB aabb)
 {
-    const Q_VEC3 centre = q_vec3_downscale_pow_2(q_vec3_add(aabb.min, aabb.max), 1);
-    return centre;
+    return q_vec3_downscale_pow_2(q_vec3_add(aabb.min, aabb.max), 1);
 }
 
 static inline Q_VEC3 q_aabb_size(Q_AABB aabb)
@@ -49,10 +48,12 @@ static inline bool q_aabb_intersects_ray(Q_AABB aabb, Q_RAY ray, Q_TYPE near, Q_
 
     for (int32_t i = 0; i < 3; ++i)
     {
-        if (q_epsilon_eq(ray.direction.raw[i], Q_ZERO, Q_EPSILON))
+        if (q_eq_epsilon(ray.direction.raw[i], Q_ZERO, Q_EPSILON))
         {
             if (ray.source.raw[i] < aabb.min.raw[i] || ray.source.raw[i] > aabb.max.raw[i])
+            {
                 return false;
+            }
         }
         else
         {
@@ -61,19 +62,18 @@ static inline bool q_aabb_intersects_ray(Q_AABB aabb, Q_RAY ray, Q_TYPE near, Q_
         }
     }
 
-    if (low.x > high.x)
-        q_swap(&low.x, &high.x);
-    if (low.y > high.y)
-        q_swap(&low.y, &high.y);
-    if (low.z > high.z)
-        q_swap(&low.z, &high.z);
+    if (low.x > high.x) { q_swap(&low.x, &high.x); }
+    if (low.y > high.y) { q_swap(&low.y, &high.y); }
+    if (low.z > high.z) { q_swap(&low.z, &high.z); }
 
     const Q_TYPE low_dist  = q_greater(q_greater(low.x, low.y), low.z);
     const Q_TYPE high_dist = q_smaller(q_smaller(high.x, high.y), high.z);
 
     if (low_dist > high_dist)
+    {
         return false;
-
+    }
+    
     *dist_out = low_dist;
     return true;
 }

@@ -10,12 +10,13 @@ static inline Q_MAT4 q_orthographic(Q_TYPE width, Q_TYPE height, Q_TYPE near, Q_
     const Q_TYPE yy = q_div(Q_TWO, height);
     const Q_TYPE zz = q_negate(q_mul_pow_2(inv_far_minus_near, 1));
     const Q_TYPE zw = q_negate(q_mul(q_add(far, near), inv_far_minus_near));
+    const Q_TYPE ww = Q_ONE;
 
     return (Q_MAT4){{
             xx, Q_ZERO, Q_ZERO, Q_ZERO,
         Q_ZERO,     yy, Q_ZERO, Q_ZERO,
         Q_ZERO, Q_ZERO,     zz,     zw,
-        Q_ZERO, Q_ZERO, Q_ZERO,  Q_ONE,
+        Q_ZERO, Q_ZERO, Q_ZERO,     ww,
     }};
 }
 

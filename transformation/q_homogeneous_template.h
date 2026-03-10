@@ -41,6 +41,16 @@ static inline Q_VEC3 q_homogeneous_point_to_vec3(Q_VEC4 v)
     }};
 }
 
+// REQUIREMENT: v.w must be one.
+static inline Q_VEC3 q_homogeneous_point_to_vec3_w_one(Q_VEC4 v)
+{
+    return (Q_VEC3){{
+        v.x,
+        v.y,
+        v.z,
+    }};
+}
+
 static inline Q_VEC4 q_homogeneous_point_normalise(Q_VEC4 v)
 {
     const Q_TYPE inv_w = q_div(Q_ONE, v.w);
@@ -48,6 +58,17 @@ static inline Q_VEC4 q_homogeneous_point_normalise(Q_VEC4 v)
         q_mul(v.x, inv_w),
         q_mul(v.y, inv_w),
         q_mul(v.z, inv_w),
+        Q_ONE,
+    }};
+}
+
+// REQUIREMENT: v.w must be one.
+static inline Q_VEC4 q_homogeneous_point_normalise_w_one(Q_VEC4 v)
+{
+    return (Q_VEC4){{
+        v.x,
+        v.y,
+        v.z,
         Q_ONE,
     }};
 }

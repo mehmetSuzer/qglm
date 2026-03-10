@@ -5,8 +5,10 @@
 static inline Q_TYPE q_atan(Q_TYPE q)
 {
     if (q_eq(q, Q_ZERO))
+    {
         return Q_ZERO;
-
+    }
+    
     Q_TYPE x = Q_ONE;
     Q_TYPE y = x;
     Q_TYPE z = Q_ZERO;

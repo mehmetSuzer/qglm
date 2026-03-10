@@ -17,8 +17,10 @@ static inline bool q_sphere_collides_sphere(Q_SPHERE sphere1, Q_SPHERE sphere2, 
     const Q_TYPE radii_sum2 = q_mul(radii_sum, radii_sum);
 
     if (dist2 > radii_sum2)
+    {
         return false;
-
+    }
+    
     const Q_TYPE dist = q_sqrt(dist2);
     const Q_TYPE depth = q_sub(radii_sum, dist);
     const Q_VEC3 normal = q_vec3_scale(centre1_to_centre2, q_div(Q_ONE, dist));

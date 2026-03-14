@@ -15,7 +15,7 @@ static inline Q_MAT4 q_viewport(int32_t x, int32_t y, uint32_t width, uint32_t h
     const Q_TYPE yy = Q_FROM_INT(-half_h);
     const Q_TYPE yw = Q_FROM_INT(y + half_h);
 
-#if QGLM_DEPTH_ZERO_TO_ONE
+#ifdef QGLM_DEPTH_ZERO_TO_ONE
     const Q_TYPE zz = Q_HALF;
     const Q_TYPE zw = Q_HALF;
 #else
